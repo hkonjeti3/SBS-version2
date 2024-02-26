@@ -2,8 +2,6 @@ package com.securebanking.sbs.dto;
 
 import jakarta.validation.constraints.*;
 
-import java.math.BigInteger;
-
 public class UserDto {
     private Integer userId;
     @NotBlank(message = "Username is required")
@@ -21,7 +19,7 @@ public class UserDto {
     private String emailAddress;
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
-    private BigInteger phoneNumber;
+    private String phoneNumber;
     private String status;
     @NotNull(message = "Role is required")
     private UserRoleDto role;
@@ -82,11 +80,11 @@ public class UserDto {
         this.emailAddress = emailAddress;
     }
 
-    public BigInteger getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(BigInteger phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

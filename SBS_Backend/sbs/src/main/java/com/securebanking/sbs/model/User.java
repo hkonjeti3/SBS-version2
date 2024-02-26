@@ -2,8 +2,6 @@ package com.securebanking.sbs.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -29,7 +27,7 @@ public class User {
     private String emailAddress;
 
     @Column(nullable = false)
-    private BigInteger phoneNumber;
+    private String phoneNumber;
 
     @Column(nullable = false)
     private String status;
@@ -70,11 +68,11 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public BigInteger getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(BigInteger phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
