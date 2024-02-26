@@ -2,6 +2,11 @@ package com.securebanking.sbs.repository;
 
 import com.securebanking.sbs.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepo extends JpaRepository<User, Long> {
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface UserRepo extends JpaRepository<User, Integer> {
 }

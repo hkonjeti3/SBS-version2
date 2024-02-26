@@ -3,10 +3,7 @@ package com.securebanking.sbs.controller;
 import com.securebanking.sbs.controller.service.UserService;
 import com.securebanking.sbs.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -15,10 +12,10 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @PostMapping("/addUser")
+    @PostMapping("/CreateOrUpdateUser")
     @CrossOrigin(origins = "*")
-    public UserDto addUser(UserDto userDto){
-        return userService.addNewUser(userDto);
+    public Void CreateOrUpdateUser(@RequestBody UserDto userDto){
+        return userService.createOrUpdateUser(userDto);
     }
 
 }

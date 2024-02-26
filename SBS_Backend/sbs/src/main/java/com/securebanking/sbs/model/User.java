@@ -9,7 +9,7 @@ import java.math.BigInteger;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Integer userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -38,11 +38,11 @@ public class User {
     @JoinColumn(name = "roleId")
     private UserRole role;
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
