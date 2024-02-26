@@ -1,30 +1,36 @@
 package com.securebanking.sbs.dto;
 
-import com.securebanking.sbs.model.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.*;
 
 import java.math.BigInteger;
 
 public class UserDto {
-    private Long userId;
+    private Integer userId;
+    @NotBlank(message = "Username is required")
     private String username;
+    @NotBlank(message = "First name is required")
     private String firstName;
+    @NotBlank(message = "Last name is required")
     private String lastName;
     private String address;
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String passwordHash;
+    @NotBlank(message = "Email address is required")
+    @Email(message = "Invalid email address")
     private String emailAddress;
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     private BigInteger phoneNumber;
     private String status;
-    private UserRole role;
+    @NotNull(message = "Role is required")
+    private UserRoleDto role;
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -92,11 +98,11 @@ public class UserDto {
         this.status = status;
     }
 
-    public UserRole getRole() {
+    public UserRoleDto getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(UserRoleDto role) {
         this.role = role;
     }
 }
