@@ -1,5 +1,7 @@
-package com.securebanking.sbs.model;
+package com.securebanking.sbs.dto;
 
+import com.securebanking.sbs.model.Transaction;
+import com.securebanking.sbs.model.User;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,33 +10,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "transaction_authorizations")
-public class TransactionAuthorization {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TransactionAuthorizationDto {
     private Long authorizationId;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transactionId")
     private Transaction transaction;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorizedByUserID", referencedColumnName = "userId")
     private User user;
-
-    @Column(nullable = false)
     private String status;
-
-    @CreatedDate
-    @Column(name = "created_time")
-    private LocalDateTime createdtime;
-
-    @LastModifiedDate
-    @Column(name = "last_modified_time")
-    private LocalDateTime lastModifiedtime;
-
-
 
     public Long getAuthorizationId() {
         return authorizationId;
@@ -58,22 +38,6 @@ public class TransactionAuthorization {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public LocalDateTime getCreatedtime() {
-        return createdtime;
-    }
-
-    public void setCreatedtime(LocalDateTime createdtime) {
-        this.createdtime = createdtime;
-    }
-
-    public LocalDateTime getLastModifiedtime() {
-        return lastModifiedtime;
-    }
-
-    public void setLastModifiedtime(LocalDateTime lastModifiedtime) {
-        this.lastModifiedtime = lastModifiedtime;
     }
 
     public String getStatus() {
