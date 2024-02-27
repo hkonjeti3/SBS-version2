@@ -1,0 +1,117 @@
+/* styles.css */
+
+/* Center the content */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* Apply styles to the card */
+  p-card {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  p-card title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the Register button */
+  p-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  /* Override button styles for PrimeNG button */
+  p-button button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  p-button button:hover {
+    background-color: #3e8e41;
+  }
+  
+  p-button button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Style for the login link */
+  a.router-link {
+    color: #007bff; /* Blue color, change as needed */
+    text-decoration: underline;
+    display: block;
+    margin-top: 1rem;
+  }
+  
+  /* Additional styles for header and name in one row */
+  .card-header {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    margin-bottom: 20px;
+  }
+  
+  .field label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .field input[type="text"],
+  .field input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box; /* Ensure padding doesn't add to the width */
+  }
+  
+  .alert {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .alert-warning {
+    color: #f0ad4e;
+  }
+  
+  .alert-success {
+    color: #28a745;
+  }
+  
