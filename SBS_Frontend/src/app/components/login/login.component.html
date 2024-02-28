@@ -1,46 +1,68 @@
-<form [formGroup]="loginForm" >
-  <p-card header="Login" [style]="{ width: '360px' }">
-    <div class="field">
-      <label for="email">Email</label>
-      <input
-        type="text"
-        pInputText
-        formControlName="email"
-        class="w-full"
-        name="email"
-        placeholder="Type your email"
-      />
-      <small
-        *ngIf="email.invalid && (email.dirty || email.touched)"
-        class="block p-error"
-      >
-        <div *ngIf="email.errors?.['required']">Email is required.</div>
-        <div *ngIf="email.errors?.['email']">Email should be valid</div>
-      </small>
-    </div>
-    <div class="field">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        pInputText
-        formControlName="password"
-        class="w-full"
-        name="password"
-        placeholder="Type your password"
-      />
-      <small
-        *ngIf="password.invalid && (password.dirty || password.touched)"
-        class="block p-error"
-      >
-        <div *ngIf="password.errors?.['required']">Password is required.</div>
-      </small>
-    </div>
-    <p-button
-      label="SIGN IN"
-      styleClass="w-full"
-      [disabled]="loginForm.invalid"
-      type="submit"
-    ></p-button>
-    <div class="mt-2">Not a member? <a routerLink="/register">Register</a></div>
-  </p-card>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="login.component.css" /> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    
+</head>
+<body>
+  <div class="login-container">
+    <h1 style="color: #a15432;">Welcome</h1>
+    <h3>Enter your Login Details</h3>
+    <form [formGroup]="loginForm" >
+      <p-card header="" [style]="{ width: '360px' }">
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            pInputText
+            formControlName="email"
+            class="w-full"
+            name="email"
+            placeholder="Type your email"
+          />
+          <small
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="block p-error"
+          >
+            <div *ngIf="email.errors?.['required']">Email is required.</div>
+            <div *ngIf="email.errors?.['email']">Email should be valid</div>
+          </small>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            pInputText
+            formControlName="password"
+            class="w-full"
+            name="password"
+            placeholder="Type your password"
+          />
+          <small
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="block p-error"
+          >
+            <div *ngIf="password.errors?.['required']">Password is required.</div>
+          </small>
+        </div>
+        <!-- commmented original button and added new button-->
+        <!-- <p-button
+          label="SIGN IN"
+          styleClass="w-full"
+          [disabled]="loginForm.invalid"
+          type="submit"
+        ></p-button> -->
+        <button type="submit" [disabled]="loginForm.invalid">SIGN IN</button>
+         
+        <div class="mt-2">Not a member? <a routerLink="/register">Register</a></div>
+      </p-card>
+    </form>
+  </div>
+</body>
+</html>
+
+
+
