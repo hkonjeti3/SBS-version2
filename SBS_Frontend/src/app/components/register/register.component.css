@@ -1,117 +1,93 @@
-/* styles.css */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: -webkit-linear-gradient(to right, #155799, #159957);  
+  background: linear-gradient(to right, #155799, #159957);
+  /*background-image: url("mountain.jpg");*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #ffffff;
+}
 
-/* Center the content */
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  /* Apply styles to the card */
-  p-card {
-    width: 400px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+.login-container {
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 360px;
+  background-color: #ff8f5e;
 
-  p-card title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Style for the Register button */
-  p-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  /* Override button styles for PrimeNG button */
-  p-button button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  p-button button:hover {
-    background-color: #3e8e41;
-  }
-  
-  p-button button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Style for the login link */
-  a.router-link {
-    color: #007bff; /* Blue color, change as needed */
-    text-decoration: underline;
-    display: block;
-    margin-top: 1rem;
-  }
-  
-  /* Additional styles for header and name in one row */
-  .card-header {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .field {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
-    margin-bottom: 20px;
-  }
-  
-  .field label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .field input[type="text"],
-  .field input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box; /* Ensure padding doesn't add to the width */
-  }
-  
-  .alert {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  
-  .alert-warning {
-    color: #f0ad4e;
-  }
-  
-  .alert-success {
-    color: #28a745;
-  }
-  
+  /*background: -webkit-linear-gradient(to right, #155799, #159957);  
+  background: linear-gradient(to right, #155799, #159957); 
+  color:whitesmoke;*/
+}
+
+.login-container h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  color: #000000;
+}
+
+button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #ee6252;
+  color: #ff9900;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #e5e5e5;
+}
+
+.login-container p,
+.login-container div.mt-2 {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-container p a,
+.login-container div.mt-2 a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.login-container p a:hover,
+.login-container div.mt-2 a:hover {
+  text-decoration: underline;
+}
+
+label{
+  display: block; /* add this */
+  padding-bottom: 3px;
+}
+ 
