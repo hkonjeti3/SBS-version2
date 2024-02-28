@@ -1,0 +1,18 @@
+<!-- tf_within.component.html -->
+<app-header></app-header>
+<div class="tf-within-container">
+    <h2>Transfer Within Same Bank</h2>
+    <div class="account-info">
+      <label for="senderAccount">Sender Account:</label>
+      <input type="text" id="senderAccount" [(ngModel)]="senderAccount">
+  
+      <label for="receiverAccount">Receiver Account:</label>
+      <input type="text" id="receiverAccount" [(ngModel)]="receiverAccount">
+    </div>
+    <div class="form-container">
+      <label for="transferAmount">Transfer Amount:</label>
+      <input type="number" id="transferAmount" [(ngModel)]="transferAmount" (input)="onAmountChange()">
+      <button class="transfer-button" (click)="onTransferButtonClick()" [disabled]="transferButtonDisabled">Transfer</button>
+    </div>
+  </div>
+  

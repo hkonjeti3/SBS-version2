@@ -1,0 +1,23 @@
+.update-container {
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 5px;
+  }
+  
+  input, button {
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
