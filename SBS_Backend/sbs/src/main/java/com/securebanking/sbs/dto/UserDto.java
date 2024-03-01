@@ -1,6 +1,7 @@
 package com.securebanking.sbs.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.Data;
 
 public class UserDto {
     private Integer userId;

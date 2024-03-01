@@ -1,29 +1,32 @@
-package com.securebanking.sbs.model;
+package com.securebanking.sbs.dto;
 
-import jakarta.persistence.*;
+import com.securebanking.sbs.model.User;
 
-@Entity
-@Table(name = "accounts")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import java.math.BigDecimal;
+
+public class AccountDto {
     private Long accountId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
-
-    @Column(nullable = false)
+//    private Integer user;
+    private Integer userId;
     private String accountNumber;
-
-    @Column(nullable = false)
     private String accountType;
-
-    @Column(nullable = false)
     private String balance;
-
-    @Column(nullable = false)
     private String status;
+
+    // Constructors, Getters, and Setters
+
+    public AccountDto() {}
+
+    // Getters and setters here
+    // ...
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Long getAccountId() {
         return accountId;
@@ -33,13 +36,13 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -72,5 +75,4 @@ public class Account {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

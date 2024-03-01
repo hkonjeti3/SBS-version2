@@ -13,21 +13,25 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Integer transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "senderId", referencedColumnName = "userId")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiverAcc", referencedColumnName = "accountId")
+    @JoinColumn(name = "senderAcc", referencedColumnName = "accountId", nullable = false)
+    private Account senderAcc;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiverAcc", referencedColumnName = "accountId", nullable = false)
     private Account receiverAcc;
 
     @Column(nullable = false)
     private String transactionType;
 
     @Column(nullable = false)
-    private Number amount;
+    private String amount;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -48,11 +52,11 @@ public class Transaction {
     @Column(nullable = false)
     private String status;
 
-    public Long getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(Long transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -78,14 +82,6 @@ public class Transaction {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
-    }
-
-    public Number getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Number amount) {
-        this.amount = amount;
     }
 
     public String getCreatedBy() {
@@ -126,5 +122,21 @@ public class Transaction {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Account getSenderAcc() {
+        return senderAcc;
+    }
+
+    public void setSenderAcc(Account senderAcc) {
+        this.senderAcc = senderAcc;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }
