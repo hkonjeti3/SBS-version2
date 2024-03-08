@@ -1,5 +1,6 @@
 package com.securebanking.sbs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -34,6 +35,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roleId")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserRole role;
 
     public Integer getUserId() {
@@ -116,5 +118,8 @@ public class User {
         this.address = address;
     }
 
+    public Integer getId() {
+        return this.userId;
+    }
 }
 

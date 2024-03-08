@@ -11,16 +11,16 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 public class TransactionAuthorizationDto {
-    private Long authorizationId;
+    private Integer authorizationId;
     private Transaction transaction;
     private User user;
     private String status;
 
-    public Long getAuthorizationId() {
+    public Integer getAuthorizationId() {
         return authorizationId;
     }
 
-    public void setAuthorizationId(Long authorizationId) {
+    public void setAuthorizationId(Integer authorizationId) {
         this.authorizationId = authorizationId;
     }
 

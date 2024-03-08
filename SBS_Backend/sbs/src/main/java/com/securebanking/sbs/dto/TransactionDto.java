@@ -1,5 +1,6 @@
 package com.securebanking.sbs.dto;
 
+import com.securebanking.sbs.enums.RequestStatus;
 import com.securebanking.sbs.model.Account;
 import com.securebanking.sbs.model.User;
 
@@ -12,9 +13,10 @@ public class TransactionDto {
 
     private String transactionType;
 
-    private Number amount;
+    private String amount;
+    private Account senderAcc;
 
-    private String status;
+    private RequestStatus status;
 
     public Long getTransactionId() {
         return transactionId;
@@ -48,19 +50,27 @@ public class TransactionDto {
         this.transactionType = transactionType;
     }
 
-    public Number getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Number amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public String getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
+    }
+
+    public Account getSenderAcc() {
+        return senderAcc;
+    }
+
+    public void setSenderAcc(Account senderAcc) {
+        this.senderAcc = senderAcc;
     }
 }
