@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -10,6 +10,7 @@ import { FundsComponent } from './components/funds/funds.component';
 import { TfWithinComponent } from './components/tf-within/tf-within.component';
 import { TfOutsideComponent } from './components/tf-outside/tf-outside.component';
 import { TranHisComponent } from './components/tran-his/tran-his.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 //import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
@@ -54,7 +55,15 @@ const routes: Routes = [
     component: TranHisComponent
   },
   {
-    path:'', redirectTo:'register',pathMatch:'full'
+    path: 'update',
+    component:UpdateComponent
+  },
+  {
+    path: 'user-details',
+    component:UserDetailsComponent
+  },
+  {
+    path:'', redirectTo:'home',pathMatch:'full'
     
   }
   
