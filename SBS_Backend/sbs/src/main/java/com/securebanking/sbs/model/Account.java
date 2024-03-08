@@ -14,13 +14,13 @@ public class Account {
     private User user;
 
     @Column(nullable = false)
-    private Number accountNumber;
+    private String accountNumber;
 
     @Column(nullable = false)
     private String accountType;
 
     @Column(nullable = false)
-    private Number balance;
+    private String balance;
 
     @Column(nullable = false)
     private String status;
@@ -41,11 +41,11 @@ public class Account {
         this.user = user;
     }
 
-    public Number getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(Number accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -57,11 +57,11 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public Number getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(Number balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 

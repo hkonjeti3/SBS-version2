@@ -1,0 +1,24 @@
+<!-- tran-his.component.html -->
+<app-header></app-header>
+<div class="tran-his-container">
+    <h2>Transaction History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{ transaction.date }}</td>
+          <td>{{ transaction.description }}</td>
+          <td [ngClass]="{ 'positive': transaction.amount > 0, 'negative': transaction.amount < 0 }">
+            {{ transaction.amount | currency: 'USD':'symbol':'1.2-2' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

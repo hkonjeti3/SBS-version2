@@ -1,0 +1,21 @@
+<!-- tf_outside.component.html -->
+<app-header></app-header>
+<div class="tf-outside-container">
+    <h2>Transfer Outside Bank</h2>
+    <div class="form-container">
+      <label for="routingNumber">Routing Number:</label>
+      <input type="text" id="routingNumber" [(ngModel)]="routingNumber">
+  
+      <label for="accountNumber">Account Number:</label>
+      <input type="text" id="accountNumber" [(ngModel)]="accountNumber">
+  
+      <label for="transferAmount">Transfer Amount:</label>
+      <input type="number" id="transferAmount" [(ngModel)]="transferAmount">
+  
+      <label for="additionalDetails">Additional Details:</label>
+      <textarea id="additionalDetails" [(ngModel)]="additionalDetails"></textarea>
+  
+      <button class="transfer-button" (click)="transferMoney()">Transfer</button>
+    </div>
+  </div>
+  

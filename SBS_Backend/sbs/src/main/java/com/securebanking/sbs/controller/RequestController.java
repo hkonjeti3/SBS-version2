@@ -2,16 +2,20 @@ package com.securebanking.sbs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.securebanking.sbs.controller.service.RequestService;
+import com.securebanking.sbs.dto.TransactionAuthorizationDto;
 import com.securebanking.sbs.dto.TransactionDto;
 import com.securebanking.sbs.dto.UserProfileUpdateRequestDto;
+import com.securebanking.sbs.model.Transaction;
 import com.securebanking.sbs.model.UserProfileUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/transaction")
 public class RequestController {
 
 //    @PostMapping("/requestTransaction")
@@ -27,16 +31,15 @@ public class RequestController {
 //        return requestService.getAllTranctionRequests(transactionAuthorizationDto);
 //    }
 
-    @PostMapping("/transactionRequest")
+    @PostMapping("/request")
     @CrossOrigin(origins = "*")
-    public TransactionDto newTransactionRequest(TransactionDto transactionDto){
+    public TransactionDto newTransactionRequest(@RequestBody TransactionDto transactionDto){
         return requestService.createTransactionRequest(transactionDto);
     }
 
     @GetMapping("/pendingProfileRequests")
-    public List<UserProfileUpdateRequest> getPendingUpdateRequests() {
-        List<UserProfileUpdateRequest> requests = requestService.getPendingUpdateRequests();
-        return requests;
+    public List<UserProfileUpdateRequestDto> getPendingUpdateRequests() {
+        return requestService.getPendingUpdateRequests();
     }
 
 //    @PostMapping("/{requestId}/approve")
@@ -48,6 +51,30 @@ public class RequestController {
     public UserProfileUpdateRequestDto createUpdateProfileRequest(@RequestBody UserProfileUpdateRequestDto userProfileUpdateRequestDto) throws JsonProcessingException {
         return requestService.createUpdateProfileRequest(userProfileUpdateRequestDto);
 
+    }
+
+    @PostMapping("/approveRequest") // POST method for approval of transactions
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> approveTransaction(@RequestBody TransactionAuthorizationDto transactionAuthorizationDto) {
+        try {
+            TransactionAuthorizationDto approvedTransaction = requestService.approveTransactionRequest(transactionAuthorizationDto);
+            return ResponseEntity.ok("approvedTransaction");
+        } catch (Exception e) {
+            // Handle the exception, possibly returning a different HTTP status code
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
+    }
+
+    @PostMapping("/rejectRequest") // POST method for approval of transactions
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> rejectTransaction(@RequestBody TransactionAuthorizationDto transactionAuthorizationDto) {
+        try {
+            TransactionAuthorizationDto approvedTransaction = requestService.rejectTransactionRequest(transactionAuthorizationDto);
+            return ResponseEntity.ok("rejected Transaction");
+        } catch (Exception e) {
+            // Handle the exception, possibly returning a different HTTP status code
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
     }
 
 //    @PostMapping("/updateProfile/Approve")  // send data to update as json string of new user data in UpdatdData variable.

@@ -1,5 +1,6 @@
 package com.securebanking.sbs.model;
 
+import com.securebanking.sbs.enums.ApprovalStatus;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,11 +16,11 @@ public class TransactionAuthorization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorizationId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "transactionId")
     private Transaction transaction;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorizedByUserID", referencedColumnName = "userId")
     private User user;
 

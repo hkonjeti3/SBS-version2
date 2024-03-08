@@ -1,0 +1,14 @@
+<!-- funds.component.html -->
+<app-header></app-header>
+<div class="funds-container">
+  <h2>Funds Transfer Options</h2>
+
+  <div class="container">
+      <img src="../../../assets/images/within.webp" alt="Transfer Within Bank">
+      <button class="btn" (click)="performTransfer('within-bank')">Transfer Within Bank</button>
+  </div>
+  <div class="container">
+      <img src="../../../assets/images/outside.png" alt="Transfer Outside Bank">
+      <button class="btn" (click)="performTransfer('outside-bank')">Transfer Outside Bank</button>
+  </div>
+</div>
