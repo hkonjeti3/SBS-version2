@@ -63,7 +63,7 @@ const routes: Routes = [
     component:UserDetailsComponent
   },
   {
-    path:'', redirectTo:'home',pathMatch:'full'
+    path:'', redirectTo:'register',pathMatch:'full'
     
   }
   
