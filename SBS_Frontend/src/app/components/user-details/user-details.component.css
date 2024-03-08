@@ -1,0 +1,15 @@
+/* user-details.component.css */
+.user-details-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .user-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+  }
+  
+  /* Add additional styling as needed */
+  

@@ -1,0 +1,28 @@
+.header-admin {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1em;
+  }
+  
+  .navbar a.active {
+    border-bottom: 2px solid #ffcc00; /* Add a visual indicator for the active link */
+  }
