@@ -12,4 +12,5 @@ export class user{
         roleId: number  | null | undefined;
         roleName: string | null | undefined;
     }
+    token!: string | null | undefined;
 }

@@ -172,7 +172,8 @@ export class RegisterComponent {
       role: {
         roleId: 2,
         roleName: undefined
-      }
+      },
+      token: undefined
     };
   
     this.registerService.register(newUser)

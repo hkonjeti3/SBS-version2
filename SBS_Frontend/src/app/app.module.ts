@@ -21,6 +21,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,8 @@ import { ButtonModule } from 'primeng/button';
     TfWithinComponent,
     TranHisComponent,
     UpdateComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    OtpVerificationComponent
 
   ],
   imports: [

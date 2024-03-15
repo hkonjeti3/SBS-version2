@@ -14,21 +14,20 @@
     <form [formGroup]="loginForm" >
       <p-card header="" [style]="{ width: '360px' }">
         <div class="field">
-          <label for="email">Email</label>
+          <label for="username">Username</label>
           <input
             type="text"
             pInputText
-            formControlName="email"
+            formControlName="username"
             class="w-full"
-            name="email"
-            placeholder="Type your email"
+            name="username"
+            placeholder="Enter your username"
           />
           <small
-            *ngIf="email.invalid && (email.dirty || email.touched)"
+            *ngIf="username.invalid && (username.dirty || username.touched)"
             class="block p-error"
           >
-            <div *ngIf="email.errors?.['required']">Email is required.</div>
-            <div *ngIf="email.errors?.['email']">Email should be valid</div>
+            <div *ngIf="username.errors?.['required']">Username is required.</div>
           </small>
         </div>
         <div class="field">
@@ -39,7 +38,7 @@
             formControlName="password"
             class="w-full"
             name="password"
-            placeholder="Type your password"
+            placeholder="Enter your password"
           />
           <small
             *ngIf="password.invalid && (password.dirty || password.touched)"
@@ -55,14 +54,13 @@
           [disabled]="loginForm.invalid"
           type="submit"
         ></p-button> -->
-        <button type="submit" [disabled]="loginForm.invalid">SIGN IN</button>
-         
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <button type="submit" [disabled]="loginForm.invalid">SIGN IN</button>
+        </form>
+      
         <div class="mt-2">Not a member? <a routerLink="/register">Register</a></div>
       </p-card>
     </form>
   </div>
 </body>
 </html>
-
-
-

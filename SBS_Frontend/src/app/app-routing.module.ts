@@ -11,6 +11,7 @@ import { TfWithinComponent } from './components/tf-within/tf-within.component';
 import { TfOutsideComponent } from './components/tf-outside/tf-outside.component';
 import { TranHisComponent } from './components/tran-his/tran-his.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 //import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'user-details',
     component:UserDetailsComponent
+  },
+  {
+    path: 'otp-verification', 
+    component: OtpVerificationComponent
   },
   {
     path:'', redirectTo:'register',pathMatch:'full'
