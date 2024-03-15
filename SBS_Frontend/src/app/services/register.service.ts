@@ -31,15 +31,16 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { user } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
+  
   private baseUrl = 'http://localhost:8080/api/v1/';
-
+  
   constructor(private http: HttpClient) {}
 
   register(user: user): Observable<any> {
@@ -59,4 +60,27 @@ export class RegisterService {
       );
     
 }
+
+login(username: string, password: string): Observable<user> {
+  const url = this.baseUrl + 'login';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })};
+  return this.http.post(url, { username, password }, { responseType: 'text' })
+    .pipe(map((response: any) => JSON.parse(response)));
+}
+
+validateOtp(email: string, otp: string) {
+  const url = this.baseUrl + 'validate-otp';
+  const body = { email, otp };
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+    responseType: 'text' as 'json' // Specify the response type as text
+  };
+  return this.http.post(url, body, httpOptions );
+}
+  
 }
