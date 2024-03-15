@@ -27,6 +27,7 @@ public class UserController {
 //    }
 
     @PostMapping("/createOrUpdateUser")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> createOrUpdateUser(@Valid @RequestBody UserDto userDto) {
         try {
             HttpStatus result = userService.createOrUpdateUser(userDto);
@@ -55,6 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/validate-otp")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> validateOtp(@RequestBody Map<String, String> otpRequest) {
         String email = otpRequest.get("email");
         String otpEnteredByUser = otpRequest.get("otp");
