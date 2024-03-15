@@ -37,14 +37,14 @@ public class AdminService implements IAdmin {
 
     private UserDto convertEntityToDto(User user){
         UserDto userDto = new UserDto();
-        UserRoleDto userRoleDto = new UserRoleDto();
+        //UserRoleDto userRoleDto = new UserRoleDto();
         userDto.setUserId(user.getUserId());
         userDto.setFirstName((user.getFirstName()));
         userDto.setEmailAddress(user.getEmailAddress());
 
-        userRoleDto.setRoleId(user.getRole().getRoleId());
-        userRoleDto.setRoleName(userDto.getRole().getRoleName());
-        userDto.setRole(userRoleDto);
+//        userRoleDto.setRoleId(user.getRole().getRoleId());
+//        userRoleDto.setRoleName(userDto.getRole().getRoleName());
+//        userDto.setRole(userRoleDto);
         return userDto;
     }
 

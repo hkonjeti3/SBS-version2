@@ -33,6 +33,8 @@ public class UserService implements Iuser {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     private static Map<String, String> otpMap = new ConcurrentHashMap<>();
     private static final String CHARACTERS = "0123456789";
@@ -97,7 +99,8 @@ public class UserService implements Iuser {
         userRoleDto.setRoleId(user.getRole().getRoleId());
         userRoleDto.setRoleName(user.getRole().getRoleName());
         userDto.setRole(userRoleDto);
-
+        String token = jwtUtil.generateToken(userDto.getUsername(),userDto.getUserId(),userDto.getEmailAddress());
+        userDto.setToken(token);
         String otp = generateOtp();
         System.out.println(otp);
         otpMap.put(userDto.getEmailAddress(), otp);

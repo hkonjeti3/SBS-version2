@@ -25,6 +25,7 @@ public class UserDto {
     @NotNull(message = "Role is required")
     private UserRoleDto role;
 
+    private String token;
     public Integer getUserId() {
         return userId;
     }
@@ -87,6 +88,14 @@ public class UserDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getStatus() {

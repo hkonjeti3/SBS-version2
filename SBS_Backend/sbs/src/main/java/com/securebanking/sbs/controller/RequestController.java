@@ -38,6 +38,7 @@ public class RequestController {
     }
 
     @GetMapping("/pendingProfileRequests")
+    @CrossOrigin(origins = "*")
     public List<UserProfileUpdateRequestDto> getPendingUpdateRequests() {
         return requestService.getPendingUpdateRequests();
     }
@@ -48,6 +49,7 @@ public class RequestController {
 //        return ResponseEntity.ok("Request approved successfully.");
 //    }
     @PostMapping("/updateUserProfile")  // send data to update as json string of new user data in UpdatdData variable.
+    @CrossOrigin(origins = "*")
     public UserProfileUpdateRequestDto createUpdateProfileRequest(@RequestBody UserProfileUpdateRequestDto userProfileUpdateRequestDto) throws JsonProcessingException {
         return requestService.createUpdateProfileRequest(userProfileUpdateRequestDto);
 

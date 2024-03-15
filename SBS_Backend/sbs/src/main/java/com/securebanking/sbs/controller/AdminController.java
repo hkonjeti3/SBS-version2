@@ -23,6 +23,7 @@ public class AdminController {
         this.adminService = adminService;
     }
     @GetMapping("/users")
+    @CrossOrigin(origins = "*")
     public List<UserDto> getAllUserDetails(){
         return adminService.getAllUsers();
     }
