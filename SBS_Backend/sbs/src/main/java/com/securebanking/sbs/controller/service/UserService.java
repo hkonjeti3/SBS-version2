@@ -50,8 +50,12 @@ public class UserService implements Iuser {
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setUsername(userDto.getUsername());
-        user.setPasswordHash(userDto.getPasswordHash());
+        if (userDto.getUsername() != null) {
+            user.setUsername(userDto.getUsername());
+        }
+        if(userDto.getPasswordHash() != null) {
+            user.setPasswordHash(userDto.getPasswordHash());
+        }
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setEmailAddress(userDto.getEmailAddress());
         user.setAddress(userDto.getAddress());
@@ -116,6 +120,14 @@ public class UserService implements Iuser {
             return true;
         }
         return false;
+    }
+
+    public UserDto getUserById(Integer id){
+        User user = userRepo.findById(id).get();
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user,userDto);
+        userDto.setPasswordHash(null);
+        return userDto;
     }
 
 }

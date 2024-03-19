@@ -70,4 +70,10 @@ public class UserController {
         }
     }
 
+    @GetMapping("/userProfile")
+    @CrossOrigin(origins = "*")
+    public UserDto getUserProfile(@RequestParam Integer id) {
+        return userService.getUserById(id);
+    }
+
 }

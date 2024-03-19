@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,12 +14,24 @@ export class UserService {
     address: '123 Main Street, City, Country',
   };
 
-  getUserData(): Observable<any> {
-    return this.userData;
+  private baseUrl = 'http://localhost:8080/api/v1';
+  
+  constructor(private http: HttpClient) {}
+
+  getUserData(userId: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/userProfile?id=${userId}`);
   }
 
-  updateUserData(updatedData: any): Observable<any>  {
-    return this.userData = { ...this.userData, ...updatedData };
+  updateUserData(updatedData: any) {
+    const url = this.baseUrl + '/transaction/updateUserProfile';
+    // const body = {updatedData};
+    // console.log(body);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    return this.http.post(url, updatedData, httpOptions );
   }
 }
 

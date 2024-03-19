@@ -68,7 +68,7 @@ public class RequestService implements IRequest {
     }
 
 
-    public UserProfileUpdateRequestDto createUpdateProfileRequest(UserProfileUpdateRequestDto userProfileUpdateRequestDto) throws JsonProcessingException {
+    public UserProfileUpdateRequestDto createUpdateProfileRequest(UserProfileUpdateRequestDto userProfileUpdateRequestDto) {
         UserProfileUpdateRequest userProfileUpdateRequest = new UserProfileUpdateRequest();
         if(userProfileUpdateRequestDto.getId() != null){
             userProfileUpdateRequest = userProfileUpdateRequestRepo.findById(userProfileUpdateRequestDto.getId()).get();
@@ -78,7 +78,12 @@ public class RequestService implements IRequest {
                 userProfileUpdateRequest.setApprovalDate(LocalDateTime.now());
 
                 ObjectMapper mapper = new ObjectMapper();
-                UserDto updatedUserData = mapper.readValue(userProfileUpdateRequest.getUpdateData(), UserDto.class);
+                UserDto updatedUserData = null;
+                try {
+                    updatedUserData = mapper.readValue(userProfileUpdateRequest.getUpdateData(), UserDto.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
                 HttpStatus userUpdateStatus= userService.createOrUpdateUser(updatedUserData);
                 if(userUpdateStatus.equals(HttpStatus.OK)){
                     userProfileUpdateRequest.setStatus(RequestStatus.UPDATED);
@@ -102,6 +107,7 @@ public class RequestService implements IRequest {
         }
         else{
             BeanUtils.copyProperties(userProfileUpdateRequestDto,userProfileUpdateRequest);
+            userProfileUpdateRequest.setUser(userRepo.findById(userProfileUpdateRequestDto.getUser().getUserId()).get());
             userProfileUpdateRequest.setStatus(RequestStatus.CREATED);
             userProfileUpdateRequest.setApprovalStatus(ApprovalStatus.PENDING);
             userProfileUpdateRequest.setRequestDate(LocalDateTime.now());

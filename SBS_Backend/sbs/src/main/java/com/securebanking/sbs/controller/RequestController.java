@@ -49,8 +49,8 @@ public class RequestController {
 //        return ResponseEntity.ok("Request approved successfully.");
 //    }
     @PostMapping("/updateUserProfile")  // send data to update as json string of new user data in UpdatdData variable.
-    @CrossOrigin(origins = "*")
-    public UserProfileUpdateRequestDto createUpdateProfileRequest(@RequestBody UserProfileUpdateRequestDto userProfileUpdateRequestDto) throws JsonProcessingException {
+    @CrossOrigin(origins =  "*")
+    public UserProfileUpdateRequestDto createUpdateProfileRequest(@RequestBody UserProfileUpdateRequestDto userProfileUpdateRequestDto)  {
         return requestService.createUpdateProfileRequest(userProfileUpdateRequestDto);
 
     }
