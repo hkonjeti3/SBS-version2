@@ -12,7 +12,10 @@ import { TfOutsideComponent } from './components/tf-outside/tf-outside.component
 import { TranHisComponent } from './components/tran-his/tran-his.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
-//import { ProfileComponent } from './profile/profile.component';
+import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { TransactionActionComponent } from './components/transaction-action/transaction-action.component';
+import { InternalUserHomeComponent } from './components/internal-user-home/internal-user-home.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -70,9 +73,25 @@ const routes: Routes = [
   {
     path:'', redirectTo:'register',pathMatch:'full'
     
-  }
-  
+  },
+  // Adding routes for transaction management
+  { path: 'intuser-home', 
+  component: InternalUserHomeComponent },
+  { path: 'intuser-home/transactions', 
+  component: TransactionListComponent }, // Use a different path for transactions
+  { path: 'intuser-home/transaction-action', 
+  component: TransactionActionComponent }, // Use a different path for transaction action
+  { path: 'transaction/:action/:id', component: TransactionActionComponent },
+  { path: '', redirectTo: 'intuser-home', pathMatch: 'full' },
+
+  // Routes for user and internal user home pages with role-based redirection
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], data: { roles: ['user'] } },
+  { path: 'intuser-home', component: InternalUserHomeComponent, canActivate: [AuthGuard], data: { roles: ['internal'] } },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

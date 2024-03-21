@@ -1,0 +1,8 @@
+<div *ngIf="action && id">
+    <h2>{{ action | capitalize }} Transaction ID: {{ id }}</h2>
+    <p>
+      <!-- Here, you can add forms or additional controls as needed -->
+      <button (click)="performAction()">Confirm {{ action | capitalize }}</button>
+    </p>
+  </div>
+  
