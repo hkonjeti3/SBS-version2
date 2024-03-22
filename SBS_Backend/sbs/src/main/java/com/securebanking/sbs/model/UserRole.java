@@ -9,7 +9,7 @@ import java.util.Set;
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    private Integer roleId;
 
     @Column(nullable = false, unique = true)
     private String roleName;
@@ -17,11 +17,11 @@ public class UserRole {
     @OneToMany(mappedBy = "role")
     private Set<User> users;
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

@@ -44,13 +44,13 @@ export class OtpVerificationComponent implements OnInit {
         const decodedToken = decodeToken(this.token);
           
         console.log(decodedToken);
-        if (decodedToken?.userId) {
-          if (decodedToken.userId === 1) {
+        if (decodedToken?.role) {
+          if (decodedToken.role === 2) {
             this.router.navigate(['/home']);
-          } else if (decodedToken.userId === 2) {
+          } else if (decodedToken.role === 6) {
             this.router.navigate(['/intuser-home']);
           }
-            else if (decodedToken.userId === 3) {
+            else if (decodedToken.role === 4) {
               this.router.navigate(['/admin']);
             
           }

@@ -6,15 +6,15 @@ import com.securebanking.sbs.model.User;
 import java.util.Set;
 
 public class UserRoleDto {
-    private Long roleId;
+    private Integer roleId;
 
     private String roleName;
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

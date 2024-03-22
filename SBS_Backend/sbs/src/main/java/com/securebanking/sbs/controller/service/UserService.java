@@ -103,7 +103,7 @@ public class UserService implements Iuser {
         userRoleDto.setRoleId(user.getRole().getRoleId());
         userRoleDto.setRoleName(user.getRole().getRoleName());
         userDto.setRole(userRoleDto);
-        String token = jwtUtil.generateToken(userDto.getUsername(),userDto.getUserId(),userDto.getEmailAddress());
+        String token = jwtUtil.generateToken(userDto.getUsername(),userDto.getUserId(),userDto.getEmailAddress(),userDto.getRole().getRoleId());
         userDto.setToken(token);
         String otp = generateOtp();
         System.out.println(otp);

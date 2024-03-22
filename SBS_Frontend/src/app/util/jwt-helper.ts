@@ -6,6 +6,7 @@ interface DecodedToken {
     exp: number;
     username: string;
     iat: number;
+    role: number;
   }
   
   export function decodeToken(token: string): DecodedToken | null {
@@ -16,7 +17,8 @@ interface DecodedToken {
         email: decodedToken.email,
         username:decodedToken.username,
         exp: decodedToken.exp,
-        iat: decodedToken.iat
+        iat: decodedToken.iat,
+        role: decodedToken.role
       };
     } catch (error) {
       console.error('Error decoding token:', error);
