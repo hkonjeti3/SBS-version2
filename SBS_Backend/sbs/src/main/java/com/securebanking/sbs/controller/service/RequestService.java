@@ -51,7 +51,7 @@ public class RequestService implements IRequest {
 
 
     public List<UserProfileUpdateRequestDto> getPendingUpdateRequests() {
-        List<UserProfileUpdateRequest> userProfileUpdateRequest = userProfileUpdateRequestRepo.findByStatus(ApprovalStatus.PENDING);
+        List<UserProfileUpdateRequest> userProfileUpdateRequest = userProfileUpdateRequestRepo.findByStatus(RequestStatus.PENDING);
         List<UserProfileUpdateRequestDto> userProfileUpdateRequestDto= new ArrayList<>();
         userProfileUpdateRequest.forEach(req -> {
             UserProfileUpdateRequestDto singleReq = new UserProfileUpdateRequestDto();
