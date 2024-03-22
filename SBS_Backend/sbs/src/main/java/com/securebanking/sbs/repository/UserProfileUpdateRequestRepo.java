@@ -15,3 +15,4 @@ public interface UserProfileUpdateRequestRepo extends JpaRepository<UserProfileU
     @Query("SELECT r FROM UserProfileUpdateRequest r WHERE r.status = :status")
     List<UserProfileUpdateRequest> findByStatus(@Param("status") RequestStatus status);
 }
+

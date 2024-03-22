@@ -16,6 +16,7 @@ import { TransactionListComponent } from './components/transaction-list/transact
 import { TransactionActionComponent } from './components/transaction-action/transaction-action.component';
 import { InternalUserHomeComponent } from './components/internal-user-home/internal-user-home.component';
 import { AuthGuard } from './guards/auth.guard';
+import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,9 @@ const routes: Routes = [
   {
     path: 'otp-verification', 
     component: OtpVerificationComponent
+  },{
+    path:'home-admin',
+    component:HomeAdminComponent
   },
   {
     path:'', redirectTo:'register',pathMatch:'full'
