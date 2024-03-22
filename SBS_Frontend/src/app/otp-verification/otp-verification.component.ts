@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService } from '../services/register.service';
+import { decodeToken } from '../util/jwt-helper';
 
 @Component({
   selector: 'app-otp-verification',
@@ -13,6 +14,7 @@ export class OtpVerificationComponent implements OnInit {
     otp: ['', Validators.required]
   });
   email: string | null = null;
+  token: string | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +39,25 @@ export class OtpVerificationComponent implements OnInit {
         (response: any) => {
           console.log('OTP validation response:', response);
           alert(response);
-          this.router.navigate(['/home']);
+          this.token = localStorage.getItem('jwtToken') || '{}';
+      
+        const decodedToken = decodeToken(this.token);
+          
+        console.log(decodedToken);
+        if (decodedToken?.userId) {
+          if (decodedToken.userId === 1) {
+            this.router.navigate(['/home']);
+          } else if (decodedToken.userId === 2) {
+            this.router.navigate(['/intuser-home']);
+          }
+            else if (decodedToken.userId === 3) {
+              this.router.navigate(['/admin']);
+            
+          }
+          
+          // Handle the response as needed
+        }
+        // this.router.navigate(['/login']);
           // Handle the response as needed
         },
         (error: any) => {

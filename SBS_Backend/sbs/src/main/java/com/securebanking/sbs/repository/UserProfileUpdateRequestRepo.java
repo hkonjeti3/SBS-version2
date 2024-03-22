@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface UserProfileUpdateRequestRepo extends JpaRepository<UserProfileUpdateRequest, Integer> {
 
-    @Query("SELECT r FROM UserProfileUpdateRequest r WHERE r.status = :status")
-    List<UserProfileUpdateRequest> findByStatus(@Param("status") RequestStatus status);
+    @Query("SELECT r FROM UserProfileUpdateRequest r WHERE r.approvalStatus = :status")
+    List<UserProfileUpdateRequest> findByStatus(@Param("status") String status);
 }
+
