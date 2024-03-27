@@ -1,4 +1,4 @@
-package com.securebanking.sbs.controller.service;
+package com.securebanking.sbs.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

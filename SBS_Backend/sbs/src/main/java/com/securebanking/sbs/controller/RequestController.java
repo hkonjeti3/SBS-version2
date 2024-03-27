@@ -79,6 +79,12 @@ public class RequestController {
         }
     }
 
+    @GetMapping("/allTransactions")
+    @CrossOrigin(origins = "*")
+    public List<Transaction> getAllTransactions() {
+        return requestService.getAllTransactions();
+    }
+
 //    @PostMapping("/updateProfile/Approve")  // send data to update as json string of new user data in UpdatdData variable.
 //    public UserProfileUpdateRequestDto ApproveProfileRequest(@RequestBody UserProfileUpdateRequestDto userProfileUpdateRequestDto) throws JsonProcessingException {
 //        return requestService.ApproveProfileRequest(userProfileUpdateRequestDto);

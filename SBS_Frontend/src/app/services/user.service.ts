@@ -19,7 +19,11 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserData(userId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/userProfile?id=${userId}`);
+    const token = localStorage.getItem('jwtToken');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.baseUrl}/userProfile?id=${userId}`, { headers: headers });
   }
 
   updateUserData(updatedData: any) {

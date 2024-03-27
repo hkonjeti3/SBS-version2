@@ -130,4 +130,31 @@ public class UserService implements Iuser {
         return userDto;
     }
 
+    public HttpStatus deactiveUser(Integer id) {
+        User user = userRepo.findById(id).get();
+        if ("Active".equals(user.getStatus())){
+            user.setStatus("Inactive");
+            user=userRepo.save(user);
+        }
+        if (user != null){
+            return HttpStatus.OK;
+        }
+        else {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+
+    public HttpStatus activateUser(Integer id) {
+        User user = userRepo.findById(id).get();
+        if ("Inactive".equals(user.getStatus())){
+            user.setStatus("Active");
+            user=userRepo.save(user);
+        }
+        if (user != null){
+            return HttpStatus.OK;
+        }
+        else {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
 }

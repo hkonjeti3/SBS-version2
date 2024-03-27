@@ -37,15 +37,18 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
-    public boolean validateToken(String token, String username) {
-        return (username.equals(extractUsername(token)) && !isTokenExpired(token));
+    public boolean validateToken(String token, String username, Integer roleId, String email) {
+        return (username.equals(extractUsername(token)) && !isTokenExpired(token)  && email.equals(extractEmail(token)) && roleId.equals(extractRoleId(token)));
+    }
+    public Integer extractRoleId(String token) {
+        return (Integer) extractClaims(token).get("role");
     }
 
     private boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
-    public Long extractUserId(String token) {
-        return (Long) extractClaims(token).get("userId");
+    public Integer extractUserId(String token) {
+        return (Integer) extractClaims(token).get("userId");
     }
 
     public String extractEmail(String token) {

@@ -18,4 +18,6 @@ public interface IRequest {
 
     public UserProfileUpdateRequestDto createUpdateProfileRequest(UserProfileUpdateRequestDto userProfileUpdateRequestDto);
     public List<UserProfileUpdateRequestDto> getPendingUpdateRequests();
+
+    public List<Transaction> getAllTransactions();
 }

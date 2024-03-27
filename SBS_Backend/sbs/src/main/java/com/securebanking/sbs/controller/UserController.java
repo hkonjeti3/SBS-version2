@@ -4,6 +4,7 @@ import com.securebanking.sbs.controller.service.UserService;
 import com.securebanking.sbs.dto.UserDto;
 import com.securebanking.sbs.exception.UserNotFoundException;
 import com.securebanking.sbs.exception.UserRoleNotFoundException;
+import com.securebanking.sbs.util.JwtTokenRequired;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +32,9 @@ public class UserController {
     public ResponseEntity<String> createOrUpdateUser(@Valid @RequestBody UserDto userDto) {
         try {
             HttpStatus result = userService.createOrUpdateUser(userDto);
-            if(HttpStatus.OK == result){
+            if (HttpStatus.OK == result) {
                 return ResponseEntity.ok("User created/updated successfully");
-            }
-            else{
+            } else {
                 throw new Exception();
             }
 
@@ -71,9 +71,45 @@ public class UserController {
     }
 
     @GetMapping("/userProfile")
+//    @JwtTokenRequired
     @CrossOrigin(origins = "*")
     public UserDto getUserProfile(@RequestParam Integer id) {
         return userService.getUserById(id);
     }
 
+    @PostMapping("/deactiveUser")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> deactiveUser(@RequestParam Integer id) {
+
+        try {
+            HttpStatus result = userService.deactiveUser(id);
+            if (HttpStatus.OK == result) {
+                return ResponseEntity.ok("User deactivated successfully");
+            } else {
+                throw new Exception();
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
+
+    }
+
+    @PostMapping("/activateUser")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> activateUser(@RequestParam Integer id) {
+
+        try {
+            HttpStatus result = userService.activateUser(id);
+            if (HttpStatus.OK == result) {
+                return ResponseEntity.ok("User deactivated successfully");
+            } else {
+                throw new Exception();
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
+
+    }
 }

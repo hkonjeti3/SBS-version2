@@ -54,7 +54,7 @@ public class RequestService implements IRequest {
 
 
     public List<UserProfileUpdateRequestDto> getPendingUpdateRequests() {
-        List<UserProfileUpdateRequest> userProfileUpdateRequest = userProfileUpdateRequestRepo.findByStatus(RequestStatus.PENDING);
+        List<UserProfileUpdateRequest> userProfileUpdateRequest = userProfileUpdateRequestRepo.findByStatus(ApprovalStatus.PENDING);
         List<UserProfileUpdateRequestDto> userProfileUpdateRequestDto= new ArrayList<>();
         userProfileUpdateRequest.forEach(req -> {
             UserProfileUpdateRequestDto singleReq = new UserProfileUpdateRequestDto();
@@ -266,6 +266,24 @@ public TransactionDto createTransactionRequest(TransactionDto transactionDto) {
         }
 
         return transactionAuthorizationDto;
+    }
+
+    public List<Transaction> getAllTransactions() {
+        List<Transaction> transactions = transactionRepo.findAll();
+//        List<TransactionDto> transactionsDto = new ArrayList<>();
+//        transactions.forEach(req -> {
+//            TransactionDto transaction = new TransactionDto();
+//            BeanUtils.copyProperties(req,transaction);
+////            User user = req.getUser();
+////            UserRole userRole = user.getRole();
+////            Set<User> empty = new HashSet<>();
+////            userRole.setUsers(empty);
+////            user.setRole(userRole);
+////            req.setUser(user);
+//            transactionsDto.add(transaction);
+//        });
+
+        return transactions;
     }
 }
 
