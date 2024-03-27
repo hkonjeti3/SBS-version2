@@ -1,14 +1,72 @@
 <!-- credit.component.html -->
-<div class="credit-container">
-    <h2 >Credit Money</h2>
-    <div class="credit-form">
-      <label for="amount">Amount:</label>
-      <input type="number" id="amount" [(ngModel)]="creditAmount" required>
+<div class="container">
+    <h2>Transaction Form</h2>
+    <form #transactionForm="ngForm" (ngSubmit)="submitTransaction(transactionForm)">
+      <div class="form-group">
+        <label for="transactionType">Transaction Type</label>
+        <select id="transactionType" [(ngModel)]="transaction.transactionType" name="transactionType" required>
+          <option value="CREDIT">Credit</option>
+          <option value="DEBIT">Debit</option>
+        </select>
+      </div>
   
-      <label for="description">Description:</label>
-      <textarea id="description" [(ngModel)]="creditDescription"></textarea>
+      <div class="form-group">
+        <label for="senderAccount">Sender Account Number</label>
+        <input type="text" id="senderAccount" [(ngModel)]="transaction.senderAcc" name="senderAccount" required>
+      </div>
   
-      <button (click)="performCredit()">Credit</button>
-    </div>
+      <div class="form-group">
+        <label for="receiverAccount">Receiver Account Number</label>
+        <input type="text" id="receiverAccount" [(ngModel)]="transaction.receiverAcc" name="receiverAccount" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" [(ngModel)]="transaction.amount" name="amount" required>
+      </div>
+  
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit Transaction</button>
+      </div>
+    </form>
   </div>
+  
+  
+
+  
+  <!-- <!DOCTYPE html>
+  <html lang="en" ng-app="transactionApp">
+  <head>
+      <meta charset="UTF-8">
+      <title>Transaction Form</title>
+      <link rel="stylesheet" href="credit_debit.component.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+      <script src="app.js"></script>
+  </head>
+  <body ng-controller="TransactionController as transCtrl">
+  
+      <div class="form-container">
+          <h2>Debit/Credit Transaction</h2>
+          <form id="transactionForm" ng-submit="transCtrl.submitTransaction()">
+              <div class="input-group">
+                  <label for="transactionType">Transaction Type:</label>
+                  <select id="transactionType" name="transactionType" ng-model="transCtrl.transactionType" required>
+                      <option value="debit">Debit</option>
+                      <option value="credit">Credit</option>
+                  </select>
+              </div>
+              <div class="input-group">
+                  <label for="amount">Amount:</label>
+                  <input type="number" id="amount" name="amount" ng-model="transCtrl.amount" placeholder="Enter amount" required>
+              </div>
+              <div class="submit-container">
+                  <button type="submit" id="submitBtn">Submit Request</button>
+              </div>
+          </form>
+      </div>
+  
+  </body>
+  </html>
+   -->
+  
   

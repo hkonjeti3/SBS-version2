@@ -28,7 +28,6 @@ public class AccountController {
 
     @Autowired
     private RequestService requestService;
-
     @PostMapping("/createAccount")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> createAccount(@RequestBody AccountDto accountDto) {
@@ -50,9 +49,10 @@ public class AccountController {
         Map<String, Object> response = new HashMap<>();
         if (accountDto.isEmpty()) {
             response.put("message", "No accounts found for the user.");
-        } else {
-            response.put("message", "Accounts retrieved successfully.");
         }
+//        else {
+//            response.put("message", "Accounts retrieved successfully.");
+//        }
         response.put("accounts", accountDto);
         return ResponseEntity.ok(response);
     }
@@ -61,7 +61,7 @@ public class AccountController {
     @PostMapping("/{transactionType}/request")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> transactionRequest(@RequestBody TransactionDto transactionDto) {
-        requestService.createTransactionRequest(transactionDto);
+        requestService.createDeleteTransactionRequest(transactionDto);
         return ResponseEntity.ok(String.format("%s request created successfully", transactionDto.getTransactionType()));
     }
 }

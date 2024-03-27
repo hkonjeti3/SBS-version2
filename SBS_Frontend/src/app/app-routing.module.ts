@@ -2,6 +2,7 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AdminComponent } from './components/user/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateComponent } from './components/update/update.component';
@@ -17,6 +18,7 @@ import { TransactionActionComponent } from './components/transaction-action/tran
 import { InternalUserHomeComponent } from './components/internal-user-home/internal-user-home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeAdminComponent } from './components/home-admin/home-admin.component';
+import { AccountComponent } from './components/account/account.component';
 
 const routes: Routes = [
   {
@@ -54,6 +56,14 @@ const routes: Routes = [
   },
   { path: 'tf_outside', 
   component: TfOutsideComponent 
+  },
+  {
+    path: 'adminUsers',
+    component: AdminComponent
+  },
+  {
+    path: 'accounts',
+    component: AccountComponent
   },
   {
     path: 'tran-his',
