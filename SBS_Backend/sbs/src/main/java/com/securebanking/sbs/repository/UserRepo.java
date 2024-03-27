@@ -14,4 +14,7 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.username = :username")
     User findByUsername(@Param("username") String username);
+
+    @Query("SELECT u FROM User u")
+    List<User> findAllUsers();
 }

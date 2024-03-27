@@ -31,6 +31,9 @@ import { CapitalizePipe } from './capitalize.pipe';
 import { InternalUserHomeComponent } from './components/internal-user-home/internal-user-home.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 
+import { AdminComponent } from './components/user/admin.component';
+import { CommonModule } from '@angular/common';
+import { AccountComponent } from './components/account/account.component';
 
 //import { TfInstantComponent } from './components/tf-instant/tf-instant.component';
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -52,6 +55,8 @@ import { OtpVerificationComponent } from './otp-verification/otp-verification.co
     TfOutsideComponent,
     TfWithinComponent,
     TranHisComponent,
+    AdminComponent,
+    AccountComponent,
     TransactionListComponent,
     TransactionActionComponent,
     CapitalizePipe,
@@ -69,7 +74,9 @@ import { OtpVerificationComponent } from './otp-verification/otp-verification.co
     ReactiveFormsModule,
     ButtonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    //NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

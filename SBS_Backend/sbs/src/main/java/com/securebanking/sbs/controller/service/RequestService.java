@@ -40,6 +40,9 @@ public class RequestService implements IRequest {
     @Autowired
     TransactionRepo transactionRepo;
 
+    @Autowired
+    AccountService accountService;
+
     public TransactionAuthorizationDto getAllTranctionRequests(TransactionAuthorizationDto transactionAuthorizationDto) {
 
         return transactionAuthorizationDto;
@@ -168,17 +171,73 @@ public TransactionDto createTransactionRequest(TransactionDto transactionDto) {
     return transactionDto;
 }
 
+    public TransactionDto createDeleteTransactionRequest(TransactionDto transactionDto) {
+        Transaction transaction =new Transaction();
+        if (transactionDto.getTransactionId() == null) {
+            //creation of request
+            //GET SENDER,RECEIVER ACCOUNT DETAILS,user,transaction type,amount
+            User user = userRepo.findById(transactionDto.getUser().getUserId()).get();
+
+            Account senderAcc = accountRepo.findbyaccountnumber(transactionDto.getSenderAcc().getAccountNumber());
+            //Account receiverAcc = accountRepo.findbyaccountnumber(transactionDto.getReceiverAcc().getAccountNumber());
+            transaction.setSenderAcc(senderAcc);
+            //transaction.setReceiverAcc(receiverAcc);
+            transaction.setUser(user);
+            transaction.setTransactionType(transactionDto.getTransactionType());
+            //transaction.setAmount(transactionDto.getAmount());
+            transaction.setStatus(RequestStatus.CREATED.toString());
+            transaction.setCreatedtime(LocalDateTime.now());
+
+            transaction=transactionRepo.save(transaction);
+//        BeanUtils.copyProperties(transaction,transactionDto);
+            if (transaction.getTransactionId() == null){
+                throw new RuntimeException("Error saving transaction");
+            }
+            TransactionAuthorization transactionAuthorization = new TransactionAuthorization();
+            transactionAuthorization.setTransaction(transaction);
+            transactionAuthorization.setStatus(ApprovalStatus.PENDING.toString());
+            transactionAuthorization.setCreatedtime(LocalDateTime.now());
+            transactionAuthorization=transactionAuthorizationRepo.save(transactionAuthorization);
+
+            if (transactionAuthorization.getAuthorizationId() == null){
+                throw new RuntimeException("Error creating transaction request");
+            }
+            transaction.setStatus(RequestStatus.PENDING.toString());
+            transaction.setLastModifiedtime(LocalDateTime.now());
+            transaction=transactionRepo.save(transaction);
+            BeanUtils.copyProperties(transaction,transactionDto);
+        }
+        return transactionDto;
+    }
+
     public TransactionAuthorizationDto approveTransactionRequest(TransactionAuthorizationDto transactionAuthorizationDto) {
         TransactionAuthorization transactionAuthorization = new TransactionAuthorization();
         transactionAuthorization=transactionAuthorizationRepo.findById(transactionAuthorizationDto.getAuthorizationId()).get();
         Transaction transaction=transactionRepo.findById(transactionAuthorization.getTransaction().getTransactionId()).get();
         if (transaction.getStatus().equals(RequestStatus.PENDING.toString())  && transactionAuthorization.getStatus().equals(ApprovalStatus.PENDING.toString())){
             User approver = userRepo.findByUsername(transactionAuthorizationDto.getUser().getUsername());
+            if (approver == null) {
+                throw new RuntimeException("Approver user not found");
+            }
             transactionAuthorization.setTransaction(transaction);
             transactionAuthorization.setStatus(ApprovalStatus.APPROVED.toString());
             transactionAuthorization.setLastModifiedtime(LocalDateTime.now());
             transactionAuthorization.setUser(approver);
             transactionAuthorization=transactionAuthorizationRepo.save(transactionAuthorization);
+            switch (transaction.getTransactionType()) {
+                case "TRANSFER_FUNDS":
+                    accountService.transferFunds(transaction);
+                    break;
+                case "DEBIT":
+                case "CREDIT": // Both "DEBIT" and "CREDIT" will execute this code
+                    accountService.executeTransaction(transaction);
+                    break;
+                case "DELETE":
+                    accountService.delete(transaction);
+                    // Add more cases for other transaction types
+                default:
+                    throw new RuntimeException("Unsupported transaction type");
+            }
             BeanUtils.copyProperties(transactionAuthorizationDto,transactionAuthorization);
         }
         else{

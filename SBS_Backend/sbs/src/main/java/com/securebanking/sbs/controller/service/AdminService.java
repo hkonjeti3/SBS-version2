@@ -40,6 +40,11 @@ public class AdminService implements IAdmin {
         //UserRoleDto userRoleDto = new UserRoleDto();
         userDto.setUserId(user.getUserId());
         userDto.setFirstName((user.getFirstName()));
+        userDto.setLastName(user.getLastName());
+        userDto.setUsername(user.getUsername());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setAddress(user.getAddress());
+        userDto.setStatus(user.getStatus());
         userDto.setEmailAddress(user.getEmailAddress());
 
 //        userRoleDto.setRoleId(user.getRole().getRoleId());

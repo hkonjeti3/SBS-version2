@@ -30,7 +30,7 @@ public class Transaction {
     @Column(nullable = false)
     private String transactionType;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String amount;
 
     @CreatedBy
