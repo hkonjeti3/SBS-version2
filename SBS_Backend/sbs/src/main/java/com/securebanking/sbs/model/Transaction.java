@@ -23,6 +23,7 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "senderAcc", referencedColumnName = "accountId", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Account senderAcc;
 
     @ManyToOne(fetch = FetchType.LAZY)

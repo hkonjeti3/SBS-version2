@@ -61,7 +61,7 @@ public class AccountController {
     @PostMapping("/{transactionType}/request")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> transactionRequest(@RequestBody TransactionDto transactionDto) {
-        requestService.createDeleteTransactionRequest(transactionDto);
+        requestService.createTransactionRequest(transactionDto);
         return ResponseEntity.ok(String.format("%s request created successfully", transactionDto.getTransactionType()));
     }
 }
