@@ -9,8 +9,4 @@ public interface Iuser {
 
     UserDto getUserById(Integer id);
 //    Void createOrUpdateUser(UserDto userDto);
-    public HttpStatus deactiveUser(Integer id);
-
-    public HttpStatus activateUser(Integer id);
-
 }

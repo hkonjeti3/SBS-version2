@@ -1,6 +1,5 @@
 package com.securebanking.sbs.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -16,7 +15,6 @@ public class UserRole {
     private String roleName;
 
     @OneToMany(mappedBy = "role")
-    @JsonIgnore
     private Set<User> users;
 
     public Integer getRoleId() {

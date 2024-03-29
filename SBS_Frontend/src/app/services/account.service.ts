@@ -13,7 +13,7 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   getAllAccounts(userId: number): Observable<account[]> {
-    // userId = 4;
+    userId = 4;
     const url = `${this.baseUrl}/user/${userId}/accountDetails`; // Dynamic URL including the userId
 
     return this.http.get<account[]>(url)
