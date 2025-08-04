@@ -1,0 +1,70 @@
+<header class="header-admin">
+  <div class="header-container">
+    <div class="header-logo">
+      <a routerLink="/admin/dashboard">
+        <i class="pi pi-shield"></i>
+        <h1>Admin Dashboard</h1>
+      </a>
+    </div>
+    
+    <nav class="header-nav">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/admin/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="pi pi-home"></i>
+            Dashboard
+          </a>
+        </li>
+        
+        <li>
+          <a routerLink="/admin/user-management" routerLinkActive="active">
+            <i class="pi pi-users"></i>
+            Users
+          </a>
+        </li>
+        
+        <li>
+          <a routerLink="/admin/transaction-list" routerLinkActive="active">
+            <i class="pi pi-list"></i>
+            Transactions
+          </a>
+        </li>
+        
+        <li class="dropdown" (click)="toggleApprovalsDropdown()">
+          <a class="dropdown-toggle" [class.active]="isApprovalsActive()">
+            <i class="pi pi-clock"></i>
+            Approvals
+            <i class="pi pi-chevron-down dropdown-arrow"></i>
+          </a>
+          <div class="dropdown-menu" [class.show]="showApprovalsDropdown">
+            <a routerLink="/admin/approvals/profile" routerLinkActive="active" class="dropdown-item">
+              <i class="pi pi-user-edit"></i>
+              Profile Approvals
+            </a>
+            <a routerLink="/admin/approvals/accounts" routerLinkActive="active" class="dropdown-item">
+              <i class="pi pi-credit-card"></i>
+              New Account Approvals
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <!-- User Dropdown -->
+      <div class="user-dropdown" (click)="toggleUserDropdown()">
+        <div class="user-avatar">
+          {{ userFirstName.charAt(0).toUpperCase() }}
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ userFirstName }}</div>
+          <div class="user-role">Admin</div>
+        </div>
+        <div class="dropdown-menu" [class.show]="showUserDropdown">
+          <a routerLink="/profile"><i class="pi pi-user"></i> Edit Profile</a>
+          <a href="#" (click)="logout()"><i class="pi pi-sign-out"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

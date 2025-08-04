@@ -1,0 +1,195 @@
+<app-header></app-header>
+
+<div class="tran-his-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-history"></i> Transaction History</h1>
+      <p>View your recent banking transactions</p>
+    </div>
+
+    <div class="history-content">
+      <div class="history-card">
+        <div class="card-header">
+          <h2>Recent Transactions</h2>
+          <button class="refresh-btn" (click)="loadTransactions()">
+            <i class="pi pi-refresh"></i>
+            Refresh
+          </button>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+          <div class="filters-row">
+            <div class="filter-group">
+              <label for="status-filter">Status</label>
+              <select id="status-filter" [(ngModel)]="selectedStatus" (change)="applyFilters()" class="filter-select">
+                <option value="">All Status</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="FAILED">Failed</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="type-filter">Type</label>
+              <select id="type-filter" [(ngModel)]="selectedType" (change)="applyFilters()" class="filter-select">
+                <option value="">All Types</option>
+                <option value="CREDIT">Credit</option>
+                <option value="DEBIT">Debit</option>
+                <option value="TRANSFER">Transfer</option>
+                <option value="DEPOSIT">Deposit</option>
+                <option value="WITHDRAWAL">Withdrawal</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sender-filter">From Account</label>
+              <select id="sender-filter" [(ngModel)]="selectedSenderAccount" (change)="applyFilters()" class="filter-select">
+                <option value="">All Accounts</option>
+                <option *ngFor="let account of userAccounts" [value]="account.accountNumber">
+                  {{ getAccountTypeDisplay(account.accountType) }} - {{ account.accountNumber }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="receiver-filter">To Account</label>
+              <select id="receiver-filter" [(ngModel)]="selectedReceiverAccount" (change)="applyFilters()" class="filter-select">
+                <option value="">All Accounts</option>
+                <option *ngFor="let account of userAccounts" [value]="account.accountNumber">
+                  {{ getAccountTypeDisplay(account.accountType) }} - {{ account.accountNumber }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="date-filter">Date Range</label>
+              <select id="date-filter" [(ngModel)]="selectedDateRange" (change)="applyFilters()" class="filter-select">
+                <option value="">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+                <option value="quarter">This Quarter</option>
+                <option value="year">This Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filters-actions">
+            <button class="clear-filters-btn" (click)="clearFilters()">
+              <i class="pi pi-times"></i>
+              Clear Filters
+            </button>
+            <div class="results-count">
+              Showing {{ paginatedTransactions.length }} of {{ filteredTransactions.length }} transactions
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="transaction-table">
+            <thead>
+              <tr>
+                <th><i class="pi pi-calendar"></i> Date</th>
+                <th><i class="pi pi-arrow-right"></i> From Account</th>
+                <th><i class="pi pi-arrow-left"></i> To Account</th>
+                <th><i class="pi pi-exchange"></i> Type</th>
+                <th><i class="pi pi-dollar"></i> Amount</th>
+                <th><i class="pi pi-tag"></i> Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of paginatedTransactions" class="transaction-row">
+                <td>
+                  <div class="date-info">
+                    <span class="date">{{ transaction.date | date:'MMM dd' }}</span>
+                    <span class="time">{{ transaction.date | date:'HH:mm' }}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="account-info" *ngIf="getSenderAccountInfo(transaction)">
+                    <span class="account-type">{{ getSenderAccountInfo(transaction).accountType }}</span>
+                    <span class="account-number">{{ getSenderAccountInfo(transaction).accountNumber }}</span>
+                  </div>
+                  <div class="account-info" *ngIf="!getSenderAccountInfo(transaction)">
+                    <span class="account-type">External</span>
+                    <span class="account-number">N/A</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="account-info" *ngIf="getReceiverAccountInfo(transaction)">
+                    <span class="account-type">{{ getReceiverAccountInfo(transaction).accountType }}</span>
+                    <span class="account-number">{{ getReceiverAccountInfo(transaction).accountNumber }}</span>
+                  </div>
+                  <div class="account-info" *ngIf="!getReceiverAccountInfo(transaction)">
+                    <span class="account-type">External</span>
+                    <span class="account-number">N/A</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="transaction-type" [ngClass]="getTypeClass(getTransactionType(transaction))">
+                    {{ getTransactionType(transaction) }}
+                  </span>
+                </td>
+                <td>
+                  <span class="amount" [ngClass]="{ 
+                    'positive': getTransactionAmount(transaction).isPositive, 
+                    'negative': !getTransactionAmount(transaction).isPositive 
+                  }">
+                    {{ getTransactionAmount(transaction).amount }}
+                  </span>
+                </td>
+                <td>
+                  <span class="status-badge" [ngClass]="getStatusClass(transaction.status)">
+                    {{ transaction.status || 'Completed' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="no-transactions" *ngIf="!paginatedTransactions || paginatedTransactions.length === 0">
+            <i class="pi pi-info-circle"></i>
+            <p>No transactions found</p>
+            <span *ngIf="hasActiveFilters">Try adjusting your filters or <button class="clear-filters-link" (click)="clearFilters()">clear all filters</button></span>
+            <span *ngIf="!hasActiveFilters">Your transaction history will appear here</span>
+          </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls" *ngIf="totalPages > 1">
+          <div class="pagination-info">
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <span class="pagination-details">({{ filteredTransactions.length }} total transactions)</span>
+          </div>
+
+          <div class="pagination-buttons">
+            <button class="pagination-btn" 
+                    [disabled]="currentPage === 1"
+                    (click)="goToPage(currentPage - 1)">
+              <i class="pi pi-chevron-left"></i>
+            </button>
+
+            <div class="page-numbers">
+              <button *ngFor="let page of getPageNumbers()" 
+                      class="page-btn" 
+                      [class.active]="page === currentPage"
+                      (click)="goToPage(page)">
+                {{ page }}
+              </button>
+            </div>
+
+            <button class="pagination-btn" 
+                    [disabled]="currentPage === totalPages"
+                    (click)="goToPage(currentPage + 1)">
+              <i class="pi pi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

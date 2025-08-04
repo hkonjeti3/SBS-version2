@@ -1,0 +1,77 @@
+<app-header></app-header>
+
+<div class="credit-page">
+<div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-money-bill"></i> Transaction Form</h1>
+      <p>Perform credit and debit transactions</p>
+    </div>
+
+    <div class="form-container">
+      <div class="form-card">
+        <div class="card-header">
+          <h2>New Transaction</h2>
+          <p>Fill in the details below to complete your transaction</p>
+        </div>
+
+        <form #transactionForm="ngForm" (ngSubmit)="submitTransaction(transactionForm)" class="transaction-form">
+          <div class="form-row">
+      <div class="form-group">
+              <label for="transactionType">
+                <i class="pi pi-exchange"></i>
+                Transaction Type
+              </label>
+        <select id="transactionType" [(ngModel)]="transaction.transactionType" name="transactionType" required>
+                <option value="">Select Transaction Type</option>
+          <option value="CREDIT">Credit</option>
+          <option value="DEBIT">Debit</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+              <label for="amount">
+                <i class="pi pi-dollar"></i>
+                Amount
+              </label>
+              <input type="number" id="amount" [(ngModel)]="transaction.amount" name="amount" 
+                     placeholder="Enter amount" required min="0" step="0.01">
+      </div>
+      </div>
+  
+          <div class="form-row">
+      <div class="form-group">
+              <label for="senderAccount">
+                <i class="pi pi-arrow-up"></i>
+                Sender Account Number
+              </label>
+              <input type="text" id="senderAccount" [(ngModel)]="senderAcc.accountNumber" 
+                     name="senderAccount" placeholder="Enter sender account number" required>
+      </div>
+  
+      <div class="form-group">
+              <label for="receiverAccount">
+                <i class="pi pi-arrow-down"></i>
+                Receiver Account Number
+              </label>
+              <input type="text" id="receiverAccount" [(ngModel)]="receiverAcc.accountNumber" 
+                     name="receiverAccount" placeholder="Enter receiver account number" required>
+      </div>
+  </div>
+  
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="resetForm()">
+              <i class="pi pi-refresh"></i>
+              Reset
+            </button>
+            <button type="submit" class="btn-primary" [disabled]="!transactionForm.valid">
+              <i class="pi pi-check"></i>
+              Submit Transaction
+            </button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  

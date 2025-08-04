@@ -1,0 +1,247 @@
+<app-header-admin></app-header-admin>
+
+<div class="transaction-management-container">
+  <div class="container">
+    <div class="history-content">
+      <div class="page-header">
+        <h1><i class="pi pi-exchange"></i> Transaction Management</h1>
+        <p>Review and manage all system transactions</p>
+      </div>
+
+      <div class="content-section">
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <i class="pi pi-exclamation-triangle"></i>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoading">
+          <i class="pi pi-spin pi-spinner"></i>
+          <p>Loading transactions...</p>
+        </div>
+
+        <!-- No Transactions State -->
+        <div class="no-transactions" *ngIf="!isLoading && filteredTransactions.length === 0">
+          <i class="pi pi-exchange"></i>
+          <h3>No Transactions Found</h3>
+          <p>No transactions match your current search criteria.</p>
+        </div>
+
+        <!-- Transactions List -->
+        <div class="transactions-list" *ngIf="!isLoading && filteredTransactions.length > 0">
+          <div class="transactions-header">
+            <h2><i class="pi pi-exchange"></i> Transaction Management</h2>
+            <button class="refresh-button" (click)="refreshTransactions()">
+              <i class="pi pi-refresh"></i>
+              Refresh
+            </button>
+          </div>
+
+          <!-- Statistics Section -->
+          <div class="stats-section">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value">{{ totalTransactions }}</div>
+                <div class="stat-label">TOTAL TRANSACTIONS</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ pendingTransactions }}</div>
+                <div class="stat-label">PENDING APPROVAL</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ completedTransactions }}</div>
+                <div class="stat-label">COMPLETED</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${{ totalAmount | number:'1.0-0' }}</div>
+                <div class="stat-label">TOTAL AMOUNT</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="filters-section">
+            <div class="filter-row">
+              <div class="filter-group">
+                <label>SENDER</label>
+                <input 
+                  type="text" 
+                  class="filter-input" 
+                  [(ngModel)]="senderFilter" 
+                  (input)="filterTransactions()"
+                  placeholder="Search sender account..."
+                >
+              </div>
+              <div class="filter-group">
+                <label>RECEIVER</label>
+                <input 
+                  type="text" 
+                  class="filter-input" 
+                  [(ngModel)]="receiverFilter" 
+                  (input)="filterTransactions()"
+                  placeholder="Search receiver account..."
+                >
+              </div>
+              <div class="filter-group">
+                <label>STATUS</label>
+                <select class="filter-select" [(ngModel)]="statusFilter" (change)="filterTransactions()">
+                  <option value="">All Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                  <option value="COMPLETED">Completed</option>
+                  <option value="INACTIVE">Inactive</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>TYPE</label>
+                <select class="filter-select" [(ngModel)]="typeFilter" (change)="filterTransactions()">
+                  <option value="">All Types</option>
+                  <option value="TRANSFER_FUNDS">Transfer</option>
+                  <option value="CREDIT">Credit</option>
+                  <option value="DEBIT">Debit</option>
+                  <option value="DELETE">Delete</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>DATE RANGE</label>
+                <select class="filter-select" [(ngModel)]="dateFilter" (change)="filterTransactions()">
+                  <option value="">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
+                </select>
+              </div>
+            </div>
+            <div class="results-info">
+              Showing {{ displayedTransactions.length }} of {{ totalItems }} transactions
+            </div>
+          </div>
+
+          <!-- Transactions Table -->
+          <div class="table-wrapper">
+            <table class="transactions-data-table">
+              <thead>
+                <tr>
+                  <th>TRANSACTION ID</th>
+                  <th>TYPE</th>
+                  <th>SENDER</th>
+                  <th>RECEIVER</th>
+                  <th>AMOUNT</th>
+                  <th>STATUS</th>
+                  <th>CREATED DATE</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of displayedTransactions" class="transaction-row">
+                  <td class="transaction-cell">
+                    <div class="transaction-info">
+                      <div class="transaction-id">{{ getTransactionId(transaction) }}</div>
+                    </div>
+                  </td>
+                  <td class="type-cell">
+                    <span class="type-badge" [class]="getTypeClass(transaction.transactionType)">
+                      {{ transaction.transactionType || 'N/A' }}
+                    </span>
+                  </td>
+                  <td class="sender-cell">{{ transaction.senderAccountNumber || 'N/A' }}</td>
+                  <td class="receiver-cell">{{ transaction.receiverAccountNumber || 'N/A' }}</td>
+                  <td class="amount-cell">
+                    <span class="amount" [class]="getAmountClass(transaction)">
+                      {{ getAmountDisplay(transaction) }}
+                    </span>
+                  </td>
+                  <td class="status-cell">
+                    <span class="status-badge" [class]="getStatusClass(transaction.status)">
+                      {{ transaction.status || 'Unknown' }}
+                    </span>
+                  </td>
+                  <td class="date-cell">{{ getTransactionDate(transaction) }}</td>
+                  <td class="actions-cell">
+                    <div class="action-buttons" *ngIf="transaction.status === 'PENDING'">
+                      <button 
+                        class="approve-btn" 
+                        (click)="approveTransaction(transaction)"
+                        [disabled]="isProcessingTransaction(transaction.transactionId)"
+                        title="Approve Transaction"
+                      >
+                        <i class="pi pi-check"></i>
+                      </button>
+                      <button 
+                        class="reject-btn" 
+                        (click)="rejectTransaction(transaction)"
+                        [disabled]="isProcessingTransaction(transaction.transactionId)"
+                        title="Reject Transaction"
+                      >
+                        <i class="pi pi-times"></i>
+                      </button>
+                    </div>
+                    <span *ngIf="transaction.status !== 'PENDING'" class="no-actions">
+                      No actions available
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-controls" *ngIf="totalPages > 1">
+            <div class="pagination-info">
+              Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, totalItems) }} of {{ totalItems }} transactions
+            </div>
+            <div class="pagination-buttons">
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === 1"
+                (click)="goToFirstPage()"
+                title="First Page"
+              >
+                <i class="pi pi-angle-double-left"></i>
+              </button>
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === 1"
+                (click)="goToPreviousPage()"
+                title="Previous Page"
+              >
+                <i class="pi pi-angle-left"></i>
+              </button>
+              
+              <div class="page-numbers">
+                <button 
+                  *ngFor="let page of getPageNumbers()" 
+                  class="page-btn"
+                  [class.active]="page === currentPage"
+                  (click)="goToPage(page)"
+                >
+                  {{ page }}
+                </button>
+              </div>
+              
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === totalPages"
+                (click)="goToNextPage()"
+                title="Next Page"
+              >
+                <i class="pi pi-angle-right"></i>
+              </button>
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === totalPages"
+                (click)="goToLastPage()"
+                title="Last Page"
+              >
+                <i class="pi pi-angle-double-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

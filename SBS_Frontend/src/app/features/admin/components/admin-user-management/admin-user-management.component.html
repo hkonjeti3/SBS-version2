@@ -1,0 +1,265 @@
+<app-header-admin></app-header-admin>
+
+<div class="user-management-container">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-users"></i> User Management</h1>
+      <p>Manage all system users and their account status</p>
+    </div>
+
+    <div class="history-content">
+      <div class="content-section">
+    <div class="error-message" *ngIf="errorMessage">
+      <i class="pi pi-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <div class="success-message" *ngIf="successMessage">
+      <i class="pi pi-check-circle"></i>
+      {{ successMessage }}
+    </div>
+
+    <div class="loading-state" *ngIf="isLoading">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading users...</p>
+    </div>
+
+    <div class="no-users" *ngIf="!isLoading && filteredUsers.length === 0">
+      <i class="pi pi-users"></i>
+      <h3>No Users Found</h3>
+      <p>No users match your current search criteria.</p>
+    </div>
+
+    <div class="users-list" *ngIf="!isLoading && filteredUsers.length > 0">
+      <div class="users-header">
+        <h2>User Management</h2>
+        <button class="refresh-button" (click)="refreshUsers()">
+          <i class="pi pi-refresh"></i>
+          Refresh
+        </button>
+      </div>
+
+      <div class="filters-section">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label>STATUS</label>
+            <select class="filter-select" [(ngModel)]="statusFilter" (change)="filterUsers()">
+              <option value="">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>ROLE</label>
+            <select class="filter-select" [(ngModel)]="roleFilter" (change)="filterUsers()">
+              <option value="">All Roles</option>
+              <option *ngFor="let role of availableRoles" [value]="role">{{ role }}</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>SEARCH</label>
+            <input 
+              type="text" 
+              class="filter-select"
+              placeholder="Find users..."
+              [(ngModel)]="searchTerm"
+              (input)="filterUsers()"
+            >
+          </div>
+        </div>
+        <div class="results-info">
+          Showing {{ displayedUsers.length }} of {{ totalItems }} users
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="users-data-table">
+          <thead>
+            <tr>
+              <th>USER</th>
+              <th>USERNAME</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>ROLE</th>
+              <th>STATUS</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of displayedUsers" class="user-row">
+              <td class="user-cell">
+                <div class="user-info">
+                  <div class="user-avatar">
+                    {{ getUserInitials(user) }}
+                  </div>
+                  <div class="user-details">
+                    <div class="user-name">
+                      <div>{{ user.firstName || '' }}</div>
+                      <div>{{ user.lastName || '' }}</div>
+                    </div>
+                    <div class="user-id">ID: {{ user.userId || 'N/A' }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="username-cell">
+                <span class="username">{{ user.username || 'N/A' }}</span>
+              </td>
+              <td class="email-cell">{{ user.emailAddress || 'N/A' }}</td>
+              <td class="phone-cell">{{ user.phoneNumber || 'N/A' }}</td>
+              <td class="role-cell">
+                <span class="role-badge" [class]="getRoleClass(user.role)">
+                  {{ user.role.roleName || user.role || 'Unknown' }}
+                </span>
+              </td>
+              <td class="status-cell">
+                <span class="status-badge" [class]="getStatusClass(user.status)">
+                  {{ user.status || 'Unknown' }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <div class="dropdown-container" (mouseenter)="onDropdownContainerEnter()" (mouseleave)="onDropdownContainerLeave()">
+                  <button class="dropdown-btn" (click)="toggleUserDropdown(user.userId || 0, $event)">
+                    <i class="pi pi-ellipsis-v"></i>
+                  </button>
+                  <div class="dropdown-menu" [class.show]="openDropdown === user.userId" (click)="$event.stopPropagation()" (mouseenter)="onDropdownMenuEnter()" (mouseleave)="onDropdownMenuLeave()">
+                    <a class="dropdown-item" (click)="manageUserAccounts(user); closeDropdown()">
+                      <i class="pi pi-credit-card"></i>
+                      Manage Accounts
+                    </a>
+                    <a *ngIf="user.status === 'Active'" class="dropdown-item deactivate" (click)="deactivateUser(user); closeDropdown()" [class.disabled]="isUpdatingStatus[user.userId || 0]">
+                      <i class="pi" [class.pi-ban]="!isUpdatingStatus[user.userId || 0]" [class.pi-spin]="isUpdatingStatus[user.userId || 0]" [class.pi-spinner]="isUpdatingStatus[user.userId || 0]"></i>
+                      {{ isUpdatingStatus[user.userId || 0] ? 'Deactivating...' : 'Deactivate' }}
+                    </a>
+                    <a *ngIf="user.status === 'Inactive'" class="dropdown-item activate" (click)="activateUser(user); closeDropdown()" [class.disabled]="isUpdatingStatus[user.userId || 0]">
+                      <i class="pi" [class.pi-check]="!isUpdatingStatus[user.userId || 0]" [class.pi-spin]="isUpdatingStatus[user.userId || 0]" [class.pi-spinner]="isUpdatingStatus[user.userId || 0]"></i>
+                      {{ isUpdatingStatus[user.userId || 0] ? 'Activating...' : 'Activate' }}
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-controls" *ngIf="totalPages > 1">
+        <div class="pagination-info">
+          Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, totalItems) }} of {{ totalItems }} users
+        </div>
+        <div class="pagination-buttons">
+          <button 
+            class="pagination-btn" 
+            [disabled]="currentPage === 1"
+            (click)="goToFirstPage()"
+            title="First Page"
+          >
+            <i class="pi pi-angle-double-left"></i>
+          </button>
+          <button 
+            class="pagination-btn" 
+            [disabled]="currentPage === 1"
+            (click)="goToPreviousPage()"
+            title="Previous Page"
+          >
+            <i class="pi pi-angle-left"></i>
+          </button>
+          
+          <div class="page-numbers">
+            <button 
+              *ngFor="let page of getPageNumbers()" 
+              class="page-btn"
+              [class.active]="page === currentPage"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          </div>
+          
+          <button 
+            class="pagination-btn" 
+            [disabled]="currentPage === totalPages"
+            (click)="goToNextPage()"
+            title="Next Page"
+          >
+            <i class="pi pi-angle-right"></i>
+          </button>
+          <button 
+            class="pagination-btn" 
+            [disabled]="currentPage === totalPages"
+            (click)="goToLastPage()"
+            title="Last Page"
+          >
+            <i class="pi pi-angle-double-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Management Modal -->
+<div class="modal-overlay" *ngIf="showAccountModal" (click)="closeAccountModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Manage Accounts - {{ selectedUser?.firstName }} {{ selectedUser?.lastName }}</h3>
+      <button class="close-btn" (click)="closeAccountModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div *ngIf="isLoadingAccounts" class="loading-message">
+        <i class="pi pi-spin pi-spinner"></i>
+        Loading accounts...
+      </div>
+      
+      <div *ngIf="!isLoadingAccounts && userAccounts.length === 0" class="no-accounts">
+        <i class="pi pi-info-circle"></i>
+        <p>No accounts found for this user.</p>
+      </div>
+      
+      <div *ngIf="!isLoadingAccounts && userAccounts.length > 0" class="accounts-list">
+        <div class="account-item" *ngFor="let account of userAccounts">
+          <div class="account-info">
+            <div class="account-number">
+              <strong>Account #{{ account.accountNumber }}</strong>
+            </div>
+            <div class="account-details">
+              <span class="account-type">{{ account.accountType }}</span>
+              <span class="account-balance">${{ getAccountBalance(account.balance) }}</span>
+            </div>
+          </div>
+          <div class="account-actions">
+            <span class="account-status" [class]="getAccountStatusClass(account.status)"> 
+              {{ account.status }}
+            </span>
+            <button 
+              *ngIf="isAccountActive(account.status)" 
+              class="action-btn deactivate" 
+              (click)="updateAccountStatus(account.accountId, 'Inactive')"
+              [disabled]="isUpdatingAccountStatus[account.accountId]"
+            >
+              <i class="pi" [class.pi-ban]="!isUpdatingAccountStatus[account.accountId]" [class.pi-spin]="isUpdatingAccountStatus[account.accountId]"></i>
+              {{ isUpdatingAccountStatus[account.accountId] ? 'Deactivating...' : 'Deactivate' }}
+            </button>
+            <button 
+              *ngIf="!isAccountActive(account.status)" 
+              class="action-btn activate" 
+              (click)="updateAccountStatus(account.accountId, 'Active')"
+              [disabled]="isUpdatingAccountStatus[account.accountId]"
+            >
+              <i class="pi" [class.pi-check]="!isUpdatingAccountStatus[account.accountId]" [class.pi-spin]="isUpdatingAccountStatus[account.accountId]"></i>
+              {{ isUpdatingAccountStatus[account.accountId] ? 'Activating...' : 'Activate' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeAccountModal()">Close</button>
+    </div>
+  </div>
+</div> 

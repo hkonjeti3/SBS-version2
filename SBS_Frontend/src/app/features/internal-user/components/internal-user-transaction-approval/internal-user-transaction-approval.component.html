@@ -1,0 +1,92 @@
+<app-header-internal></app-header-internal>
+
+<div class="internal-transactions-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-list"></i> Transaction Requests</h1>
+      <p>Review and approve pending transaction requests</p>
+    </div>
+
+    <div class="content-area">
+      <div class="filters">
+        <div class="search-box">
+          <i class="pi pi-search"></i>
+          <input type="text" placeholder="Search transactions..." />
+        </div>
+        <div class="filter-options">
+          <select>
+            <option value="">All Types</option>
+            <option value="transfer">Transfer</option>
+            <option value="withdrawal">Withdrawal</option>
+            <option value="deposit">Deposit</option>
+          </select>
+          <select>
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="transactions-list" *ngIf="!isLoading">
+        <div class="transaction-card" *ngFor="let transaction of pendingTransactions">
+          <div class="transaction-header">
+            <div class="transaction-id">
+              <span class="label">ID:</span>
+              <span class="value">#{{ transaction.id }}</span>
+            </div>
+            <div class="transaction-status" [class]="transaction.status.toLowerCase()">
+              {{ transaction.status }}
+            </div>
+          </div>
+
+          <div class="transaction-details">
+            <div class="detail-row">
+              <span class="label">Type:</span>
+              <span class="value">{{ transaction.type }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">From:</span>
+              <span class="value">{{ transaction.senderName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">To:</span>
+              <span class="value">{{ transaction.receiverName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Amount:</span>
+              <span class="value amount">${{ transaction.amount.toFixed(2) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Date:</span>
+              <span class="value">{{ transaction.timestamp | date:'short' }}</span>
+            </div>
+          </div>
+
+          <div class="transaction-actions">
+            <button class="btn btn-success" (click)="approveTransaction(transaction.id)">
+              <i class="pi pi-check"></i>
+              Approve
+            </button>
+            <button class="btn btn-danger" (click)="rejectTransaction(transaction.id)">
+              <i class="pi pi-times"></i>
+              Reject
+            </button>
+          </div>
+        </div>
+
+        <div class="no-transactions" *ngIf="pendingTransactions.length === 0">
+          <i class="pi pi-info-circle"></i>
+          <h3>No Pending Transactions</h3>
+          <p>All transaction requests have been processed.</p>
+        </div>
+      </div>
+
+      <div class="loading" *ngIf="isLoading">
+        <i class="pi pi-spin pi-spinner"></i>
+        <p>Loading transactions...</p>
+      </div>
+    </div>
+  </div>
+</div> 

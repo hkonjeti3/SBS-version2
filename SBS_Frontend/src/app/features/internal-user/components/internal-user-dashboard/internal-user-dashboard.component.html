@@ -1,0 +1,115 @@
+<app-header-internal></app-header-internal>
+
+<div class="internal-dashboard">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-shield"></i> Internal User Dashboard</h1>
+      <p>Manage and approve various system requests</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-list"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ pendingTransactions }}</h3>
+          <p>Pending Transactions</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-user-edit"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ pendingProfileUpdates }}</h3>
+          <p>Profile Update Requests</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-credit-card"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ pendingAccountRequests }}</h3>
+          <p>Account Requests</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ approvedToday }}</h3>
+          <p>Approved Today</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="actions-grid">
+        <div class="action-card" (click)="navigateToTransactions()">
+          <div class="action-icon">
+            <i class="pi pi-list"></i>
+          </div>
+          <h3>Review Transactions</h3>
+          <p>Approve or reject pending transaction requests</p>
+        </div>
+
+        <div class="action-card" (click)="navigateToProfileUpdates()">
+          <div class="action-icon">
+            <i class="pi pi-user-edit"></i>
+          </div>
+          <h3>Profile Updates</h3>
+          <p>Review user profile modification requests</p>
+        </div>
+
+        <div class="action-card" (click)="navigateToAccountRequests()">
+          <div class="action-icon">
+            <i class="pi pi-credit-card"></i>
+          </div>
+          <h3>Account Requests</h3>
+          <p>Process new account creation requests</p>
+        </div>
+
+        <div class="action-card" (click)="viewReports()">
+          <div class="action-icon">
+            <i class="pi pi-chart-bar"></i>
+          </div>
+          <h3>Reports</h3>
+          <p>View approval statistics and reports</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-activity">
+      <h2>Recent Activity</h2>
+      <div class="activity-list" *ngIf="recentActivities.length > 0">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon" [class]="activity.type">
+            <i [class]="getActivityIcon(activity.type)"></i>
+          </div>
+          <div class="activity-content">
+            <h4>{{ activity.title }}</h4>
+            <p>{{ activity.description }}</p>
+            <span class="activity-time">{{ activity.timestamp | date:'short' }}</span>
+          </div>
+          <div class="activity-status" [class]="activity.status">
+            {{ activity.status }}
+          </div>
+        </div>
+      </div>
+      <div class="no-activity" *ngIf="recentActivities.length === 0">
+        <i class="pi pi-info-circle"></i>
+        <p>No recent activity to display</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<app-header-internal></app-header-internal>
+
+<div class="internal-profile-updates-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-user-edit"></i> Profile Update Requests</h1>
+      <p>Review and approve user profile modification requests</p>
+    </div>
+
+    <div class="content-area">
+      <div class="filters">
+        <div class="search-box">
+          <i class="pi pi-search"></i>
+          <input type="text" placeholder="Search requests..." />
+        </div>
+        <div class="filter-options">
+          <select>
+            <option value="">All Types</option>
+            <option value="address">Address Update</option>
+            <option value="phone">Phone Update</option>
+            <option value="email">Email Update</option>
+          </select>
+          <select>
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="requests-list" *ngIf="!isLoading">
+        <div class="request-card" *ngFor="let request of pendingProfileUpdates">
+          <div class="request-header">
+            <div class="request-id">
+              <span class="label">ID:</span>
+              <span class="value">#{{ request.id }}</span>
+            </div>
+            <div class="request-status" [class]="request.status.toLowerCase()">
+              {{ request.status }}
+            </div>
+          </div>
+
+          <div class="request-details">
+            <div class="detail-row">
+              <span class="label">User ID:</span>
+              <span class="value">{{ request.userId }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Request Type:</span>
+              <span class="value">{{ request.requestType }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Current Value:</span>
+              <span class="value">{{ request.currentValue }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Requested Value:</span>
+              <span class="value">{{ request.requestedValue }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Reason:</span>
+              <span class="value">{{ request.reason }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Date:</span>
+              <span class="value">{{ request.timestamp | date:'short' }}</span>
+            </div>
+          </div>
+          
+          <div class="request-actions">
+            <button class="btn btn-success" (click)="approveProfileUpdate(request.id!)">
+              <i class="pi pi-check"></i>
+              Approve
+            </button>
+            <button class="btn btn-danger" (click)="rejectProfileUpdate(request.id!)">
+              <i class="pi pi-times"></i>
+              Reject
+            </button>
+          </div>
+        </div>
+
+        <div class="no-requests" *ngIf="pendingProfileUpdates.length === 0">
+          <i class="pi pi-info-circle"></i>
+          <h3>No Pending Profile Updates</h3>
+          <p>All profile update requests have been processed.</p>
+        </div>
+      </div>
+
+      <div class="loading" *ngIf="isLoading">
+        <i class="pi pi-spin pi-spinner"></i>
+        <p>Loading profile update requests...</p>
+      </div>
+    </div>
+  </div>
+</div> 

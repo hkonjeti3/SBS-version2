@@ -1,0 +1,58 @@
+<header class="header-internal">
+  <div class="container">
+    <div class="logo">
+      <a routerLink="/intuser-home">
+        <i class="pi pi-shield"></i>
+        <span>Internal User Dashboard</span>
+      </a>
+    </div>
+    
+    <nav class="navbar">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a routerLink="/intuser-home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="pi pi-home"></i>
+            Dashboard
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a routerLink="/internal-transactions" routerLinkActive="active">
+            <i class="pi pi-list"></i>
+            Transaction Requests
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a routerLink="/internal-profile-updates" routerLinkActive="active">
+            <i class="pi pi-user-edit"></i>
+            Profile Updates
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a routerLink="/internal-accounts" routerLinkActive="active">
+            <i class="pi pi-credit-card"></i>
+            Account Requests
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="user-menu">
+      <div class="user-info" (click)="toggleUserDropdown()">
+        <span class="username">{{ userFirstName }}</span>
+        <i class="pi pi-user-circle"></i>
+        <i class="pi pi-chevron-down dropdown-arrow"></i>
+      </div>
+      <div class="dropdown-menu" [class.show]="showUserDropdown">
+        <a routerLink="/profile"><i class="pi pi-user"></i> Edit Profile</a>
+        <a href="#" (click)="logout()"><i class="pi pi-sign-out"></i> Logout</a>
+      </div>
+    </div>
+    
+    <div class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <i class="pi pi-bars"></i>
+    </div>
+  </div>
+</header> 

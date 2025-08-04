@@ -1,0 +1,53 @@
+# Environment files with sensitive data
+.env
+.env.local
+.env.production
+.env.staging
+
+# Database configuration files
+database.conf
+db_password.txt
+
+# Log files
+*.log
+logs/
+
+# Node modules
+node_modules/
+
+# Build artifacts
+target/
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Security files
+*.pem
+*.key
+*.crt
+*.p12
+
+# Application specific
+backend.log
+frontend.log
+load-test-results.json
+
+# Kafka and Redis data
+kafka-logs/
+redis-data/
+
+# PostgreSQL data (if local)
+postgres-data/ 

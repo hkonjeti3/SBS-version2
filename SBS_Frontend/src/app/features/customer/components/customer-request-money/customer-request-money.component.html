@@ -1,0 +1,118 @@
+<app-header></app-header>
+
+<div class="request-money-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-plus-circle"></i> Request Money</h1>
+      <p>Request money from other users or contacts</p>
+    </div>
+
+    <div class="request-form-container">
+      <div class="form-card">
+        <div class="card-header">
+          <h2>Money Request Form</h2>
+          <p>Fill in the details below to request money</p>
+        </div>
+
+        <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
+          <div class="form-group">
+            <label for="recipientEmail">
+              <i class="pi pi-envelope"></i>
+              Recipient Email
+            </label>
+            <input
+              type="email"
+              id="recipientEmail"
+              formControlName="recipientEmail"
+              placeholder="Enter recipient's email address"
+              class="form-control"
+              [class.error]="recipientEmail?.invalid && recipientEmail?.touched"
+            />
+            <div class="error-message" *ngIf="recipientEmail?.invalid && recipientEmail?.touched">
+              <span *ngIf="recipientEmail?.errors?.['required']">Email is required</span>
+              <span *ngIf="recipientEmail?.errors?.['email']">Please enter a valid email address</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">
+              <i class="pi pi-dollar"></i>
+              Amount
+            </label>
+            <input
+              type="number"
+              id="amount"
+              formControlName="amount"
+              placeholder="Enter amount to request"
+              class="form-control"
+              [class.error]="amount?.invalid && amount?.touched"
+              step="0.01"
+              min="0.01"
+            />
+            <div class="error-message" *ngIf="amount?.invalid && amount?.touched">
+              <span *ngIf="amount?.errors?.['required']">Amount is required</span>
+              <span *ngIf="amount?.errors?.['min']">Amount must be greater than 0</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="accountNumber">
+              <i class="pi pi-credit-card"></i>
+              Your Account Number
+            </label>
+            <input
+              type="text"
+              id="accountNumber"
+              formControlName="accountNumber"
+              placeholder="Enter your account number"
+              class="form-control"
+              [class.error]="accountNumber?.invalid && accountNumber?.touched"
+            />
+            <div class="error-message" *ngIf="accountNumber?.invalid && accountNumber?.touched">
+              <span *ngIf="accountNumber?.errors?.['required']">Account number is required</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">
+              <i class="pi pi-file-edit"></i>
+              Description
+            </label>
+            <textarea
+              id="description"
+              formControlName="description"
+              placeholder="Enter a description for this request"
+              class="form-control"
+              [class.error]="description?.invalid && description?.touched"
+              rows="3"
+            ></textarea>
+            <div class="error-message" *ngIf="description?.invalid && description?.touched">
+              <span *ngIf="description?.errors?.['required']">Description is required</span>
+              <span *ngIf="description?.errors?.['minlength']">Description must be at least 5 characters</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="requestForm.invalid || isLoading"
+            >
+              <i class="pi pi-send" *ngIf="!isLoading"></i>
+              <i class="pi pi-spinner pi-spin" *ngIf="isLoading"></i>
+              {{ isLoading ? 'Sending Request...' : 'Send Request' }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="router.navigate(['/home'])"
+            >
+              <i class="pi pi-times"></i>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 

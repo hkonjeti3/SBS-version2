@@ -1,0 +1,127 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-logo">
+      <a routerLink="/home">
+        <i class="pi pi-shield"></i>
+        <h1>SBS Banking</h1>
+      </a>
+    </div>
+    
+    <nav class="header-nav">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="pi pi-home"></i>
+            Home
+          </a>
+        </li>
+        
+        <li>
+          <a routerLink="/accounts" routerLinkActive="active">
+            <i class="pi pi-credit-card"></i>
+            Accounts
+          </a>
+        </li>
+        
+        <li>
+          <a routerLink="/credit" routerLinkActive="active">
+            <i class="pi pi-money-bill"></i>
+            Transfer Money
+          </a>
+        </li>
+        
+        <li>
+          <a routerLink="/tran-his" routerLinkActive="active">
+            <i class="pi pi-list"></i>
+            Transactions
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <!-- Notification Dropdown -->
+      <div class="notification-dropdown" (click)="toggleNotificationDropdown()">
+        <div class="notification-icon">
+          <i class="pi pi-bell"></i>
+          <span class="notification-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </div>
+        
+        <div class="notification-menu" [class.show]="showNotificationDropdown">
+          <div class="notification-header">
+            <div class="notification-title">Notifications</div>
+            <div class="mark-all-read" (click)="markAllNotificationsAsRead()" *ngIf="unreadCount > 0">
+              Mark all read
+            </div>
+          </div>
+          
+          <div class="notification-list" *ngIf="!loadingNotifications">
+            <div class="notification-item" *ngFor="let notification of notifications" 
+                 [class.unread]="!notification.isRead">
+              <div class="notification-icon">
+                <i class="pi" [class.pi-user-edit]="notification.type === 'profile_update'"
+                   [class.pi-credit-card]="notification.type === 'account_request'"
+                   [class.pi-list]="notification.type === 'transaction'"
+                   [class.pi-info-circle]="notification.type === 'general'"></i>
+              </div>
+              <div class="notification-content" (click)="markNotificationAsRead(notification)">
+                <div class="notification-title">{{ notification.title || 'Notification' }}</div>
+                <div class="notification-message">{{ notification.message }}</div>
+                <div class="notification-time">{{ notification.timestamp | date:'short' }}</div>
+              </div>
+              <div class="notification-actions">
+                <button class="mark-read-btn" 
+                        (click)="markNotificationAsRead(notification)"
+                        *ngIf="!notification.isRead"
+                        title="Mark as read">
+                  <i class="pi pi-check"></i>
+                </button>
+                <button class="delete-btn" 
+                        (click)="deleteNotification(notification.id)"
+                        title="Delete notification">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="no-notifications" *ngIf="notifications.length === 0">
+              <i class="pi pi-info-circle"></i>
+              <p>No notifications</p>
+            </div>
+          </div>
+          
+          <div class="loading-notifications" *ngIf="loadingNotifications">
+            <i class="pi pi-spin pi-spinner"></i>
+            <p>Loading notifications...</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- User Dropdown -->
+      <div class="user-dropdown" (click)="toggleUserDropdown()">
+        <div class="user-avatar">
+          {{ userFirstName.charAt(0).toUpperCase() }}
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ userFirstName }}</div>
+          <div class="user-role">Customer</div>
+        </div>
+        
+        <div class="dropdown-menu" [class.show]="showUserDropdown">
+          <a class="dropdown-item" routerLink="/profile">
+            <i class="pi pi-user"></i>
+            Edit Profile
+          </a>
+          <a class="dropdown-item" href="#" (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <i class="pi pi-bars"></i>
+    </div>
+  </div>
+</header>

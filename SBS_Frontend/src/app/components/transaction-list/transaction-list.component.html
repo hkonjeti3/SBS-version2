@@ -1,8 +1,0 @@
-<h2>Transaction List</h2>
-<ul class="transactions">
-  <li *ngFor="let transaction of transactions">
-    {{ transaction.description }} - {{ transaction.amount }}
-    <button (click)="goToAction('verify', transaction.id)">Verify</button>
-    <button (click)="goToAction('authorize', transaction.id)">Authorize</button>
-  </li>
-</ul>

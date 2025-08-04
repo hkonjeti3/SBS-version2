@@ -1,0 +1,152 @@
+<app-header-admin></app-header-admin>
+
+<div class="profile-approvals-wrapper">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>
+        <i class="pi pi-user-edit"></i>
+        Profile Approvals
+      </h1>
+      <p>Review and manage pending profile update requests</p>
+    </div>
+
+    <!-- Profile Approvals Content -->
+    <div class="profile-approvals-content">
+      <div class="profile-approvals-card">
+        <!-- Card Header -->
+        <div class="card-header">
+          <h2>Profile Approvals</h2>
+          <button class="refresh-btn" (click)="loadPendingRequests()">
+            <i class="pi pi-refresh"></i>
+            Refresh
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="loading-state">
+          <i class="pi pi-spinner pi-spin"></i>
+          <p>Loading pending profile requests...</p>
+          <span>Please wait while we fetch the latest data</span>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="error && !loading" class="error-state">
+          <i class="pi pi-exclamation-triangle"></i>
+          <p>Error Loading Requests</p>
+          <span>{{ error }}</span>
+          <button class="retry-btn" (click)="loadPendingRequests()">
+            <i class="pi pi-refresh"></i>
+            Retry
+          </button>
+        </div>
+
+        <!-- No Requests State -->
+        <div *ngIf="!loading && !error && pendingRequests.length === 0" class="no-requests">
+          <i class="pi pi-check-circle"></i>
+          <p>No Pending Requests</p>
+          <span>All profile update requests have been processed</span>
+        </div>
+
+        <!-- Requests Content -->
+        <div *ngIf="!loading && !error && pendingRequests.length > 0">
+          <!-- Requests List -->
+          <div class="requests-section">
+            <div class="requests-header">
+              <h3>Pending Profile Update Requests ({{ pendingRequests.length }})</h3>
+            </div>
+
+            <div class="requests-list">
+              <div class="request-card" *ngFor="let request of pendingRequests">
+                <div class="request-header">
+                  <div class="request-id">
+                    <span class="label">ID:</span>
+                    <span class="value">{{ request.id || 'N/A' }}</span>
+                  </div>
+                  <div class="request-date">
+                    <span class="label">Date:</span>
+                    <span class="value">{{ request.timestamp ? formatDate(request.timestamp.toString()) : 'N/A' }}</span>
+                  </div>
+                  <div class="request-status">
+                    <span class="status-badge" [class]="getStatusClass(request.status)">
+                      {{ request.status.toUpperCase() }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="request-details">
+                  <div class="detail-row">
+                    <div class="detail-item">
+                      <span class="label">User ID:</span>
+                      <span class="value">{{ request.userId }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Request Type:</span>
+                      <span class="value">{{ request.requestType }}</span>
+                    </div>
+                  </div>
+
+                  <div class="detail-row">
+                    <div class="detail-item">
+                      <span class="label">Current Value:</span>
+                      <span class="value">{{ request.currentValue }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Requested Value:</span>
+                      <span class="value">{{ request.requestedValue }}</span>
+                    </div>
+                  </div>
+
+                  <div class="detail-row" *ngIf="request.reason">
+                    <div class="detail-item full-width">
+                      <span class="label">Reason:</span>
+                      <span class="value">{{ request.reason }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="request-actions">
+                  <button class="btn-approve" (click)="approveRequest(request.id!)" [disabled]="!request.id">
+                    <i class="pi pi-check"></i>
+                    Approve
+                  </button>
+                  <button class="btn-deny" (click)="denyRequestWithReason(request.id!)" [disabled]="!request.id">
+                    <i class="pi pi-times"></i>
+                    Deny
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Deny Reason Modal -->
+<div class="modal-overlay" *ngIf="showDenyModal" (click)="closeDenyModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Provide Denial Reason</h3>
+      <button class="modal-close" (click)="closeDenyModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Please provide a reason for denying this profile update request:</p>
+      <textarea 
+        [(ngModel)]="denyReason" 
+        placeholder="Enter denial reason..."
+        rows="4"
+        class="deny-reason-input"
+      ></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeDenyModal()">Cancel</button>
+      <button class="btn-confirm-deny" (click)="confirmDenyRequest()" [disabled]="!denyReason.trim()">
+        Confirm Denial
+      </button>
+    </div>
+  </div>
+</div> 

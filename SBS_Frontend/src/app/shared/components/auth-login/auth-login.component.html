@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="login.component.css" /> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    
+</head>
+<body>
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-title">Secure Banking System</div>
+        <div class="login-subtitle">Welcome back! Please sign in to your account.</div>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              placeholder="Enter your username"
+              [class.error]="username.invalid && (username.dirty || username.touched)"
+            />
+            <i class="pi pi-user input-icon"></i>
+          </div>
+          <div 
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+            class="error-message"
+          >
+            <span *ngIf="username.errors?.['required']">Username is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              [class.error]="password.invalid && (password.dirty || password.touched)"
+            />
+            <i class="pi pi-lock input-icon"></i>
+          </div>
+          <div 
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="error-message"
+          >
+            <span *ngIf="password.errors?.['required']">Password is required</span>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="login-button"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          <div *ngIf="isLoading" class="spinner"></div>
+          <i *ngIf="!isLoading" class="pi pi-sign-in"></i>
+          <span>{{ isLoading ? 'Signing In...' : 'Sign In' }}</span>
+        </button>
+      </form>
+
+      <div class="register-link">
+        <p>Don't have an account? 
+          <a routerLink="/register">
+            Register here
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="background-decoration">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+</div>
+<app-otp-verification
+  *ngIf="showOtpModal"
+  [showOtpModal]="showOtpModal"
+  [userEmail]="userEmail"
+  (otpVerified)="onOtpVerified($event)"
+  (modalClosed)="onOtpModalClosed()"
+></app-otp-verification>
+</body>
+</html>

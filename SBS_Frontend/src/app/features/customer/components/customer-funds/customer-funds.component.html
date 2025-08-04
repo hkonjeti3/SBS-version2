@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<div class="funds-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-arrow-right-arrow-left"></i> Funds Transfer</h1>
+      <p>Choose your transfer method</p>
+    </div>
+
+    <div class="transfer-options">
+      <div class="transfer-card" (click)="performTransfer('within-bank')">
+        <div class="card-image">
+          <img src="../../../assets/images/within.webp" alt="Transfer Within Bank">
+        </div>
+        <div class="card-content">
+          <h3><i class="pi pi-building"></i> Transfer Within Bank</h3>
+          <p>Transfer funds between your accounts or to other customers within our bank</p>
+          <div class="features">
+            <span><i class="pi pi-check"></i> Instant transfer</span>
+            <span><i class="pi pi-check"></i> No fees</span>
+            <span><i class="pi pi-check"></i> Secure</span>
+          </div>
+          <button class="transfer-btn">
+            <i class="pi pi-arrow-right"></i>
+            Start Transfer
+          </button>
+        </div>
+      </div>
+
+      <div class="transfer-card" (click)="performTransfer('outside-bank')">
+        <div class="card-image">
+          <img src="../../../assets/images/outside.png" alt="Transfer Outside Bank">
+        </div>
+        <div class="card-content">
+          <h3><i class="pi pi-globe"></i> Transfer Outside Bank</h3>
+          <p>Transfer funds to accounts at other banks or financial institutions</p>
+          <div class="features">
+            <span><i class="pi pi-check"></i> 1-2 business days</span>
+            <span><i class="pi pi-check"></i> Low fees</span>
+            <span><i class="pi pi-check"></i> Wide network</span>
+          </div>
+          <button class="transfer-btn">
+            <i class="pi pi-arrow-right"></i>
+            Start Transfer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

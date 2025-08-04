@@ -1,0 +1,117 @@
+<!-- OTP Verification Modal -->
+<div class="otp-modal-overlay" *ngIf="showOtpModal" (click)="closeOtpModal()">
+  <div class="otp-modal-content" (click)="$event.stopPropagation()">
+    <div class="otp-modal-header">
+      <h2><i class="pi pi-shield"></i> Verify Your Identity</h2>
+      <button class="modal-close" (click)="closeOtpModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="otp-modal-body">
+      <div class="otp-info">
+        <div class="otp-icon">
+          <i class="pi pi-envelope"></i>
+        </div>
+        <h3>Enter OTP</h3>
+        <p>We've sent a verification code to <strong>{{ userEmail }}</strong></p>
+        <p class="otp-note">Please check your email and enter the 6-digit code below</p>
+      </div>
+
+      <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="otp-form">
+        <div class="otp-input-group">
+          <div class="otp-inputs">
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit1"
+              (input)="onOtpInput($event, 1)"
+              (keydown)="onOtpKeydown($event, 1)"
+              [class.error]="otpError"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit2"
+              (input)="onOtpInput($event, 2)"
+              (keydown)="onOtpKeydown($event, 2)"
+              [class.error]="otpError"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit3"
+              (input)="onOtpInput($event, 3)"
+              (keydown)="onOtpKeydown($event, 3)"
+              [class.error]="otpError"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit4"
+              (input)="onOtpInput($event, 4)"
+              (keydown)="onOtpKeydown($event, 4)"
+              [class.error]="otpError"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit5"
+              (input)="onOtpInput($event, 5)"
+              (keydown)="onOtpKeydown($event, 5)"
+              [class.error]="otpError"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              formControlName="digit6"
+              (input)="onOtpInput($event, 6)"
+              (keydown)="onOtpKeydown($event, 6)"
+              [class.error]="otpError"
+            />
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="otpError">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <div class="otp-actions">
+          <button
+            type="submit"
+            class="btn btn-primary verify-btn"
+            [disabled]="otpForm.invalid || isVerifying"
+          >
+            <i class="pi pi-check" *ngIf="!isVerifying"></i>
+            <i class="pi pi-spinner pi-spin" *ngIf="isVerifying"></i>
+            {{ isVerifying ? 'Verifying...' : 'Verify OTP' }}
+          </button>
+          
+          <button
+            type="button"
+            class="btn btn-secondary resend-btn"
+            (click)="resendOtp()"
+            [disabled]="isResending"
+          >
+            <i class="pi pi-refresh" *ngIf="!isResending"></i>
+            <i class="pi pi-spinner pi-spin" *ngIf="isResending"></i>
+            {{ isResending ? 'Sending...' : 'Resend OTP' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="otp-footer">
+        <p>Didn't receive the code? Check your spam folder or</p>
+        <button class="link-btn" (click)="resendOtp()">request a new code</button>
+      </div>
+    </div>
+  </div>
+</div>
+  

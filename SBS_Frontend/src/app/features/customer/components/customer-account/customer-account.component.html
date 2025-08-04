@@ -1,0 +1,217 @@
+<app-header></app-header>
+
+<div class="account-page">
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="pi pi-credit-card"></i> My Accounts</h1>
+      <p>Manage your banking accounts and view transaction history</p>
+    </div>
+
+    <!-- Account Summary -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="pi pi-credit-card"></i>
+        </div>
+        <div class="card-content">
+          <h3>{{ accountSummary.totalAccounts || 0 }}</h3>
+          <p>Total Accounts</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="pi pi-dollar"></i>
+        </div>
+        <div class="card-content">
+          <h3>${{ (accountSummary.totalBalance || 0).toFixed(2) }}</h3>
+          <p>Total Balance</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+        <div class="card-content">
+          <h3>{{ accountSummary.activeAccounts || 0 }}</h3>
+          <p>Active Accounts</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Actions -->
+    <div class="account-actions">
+      <button class="action-btn primary" (click)="openCreateAccountModal()">
+        <i class="pi pi-plus"></i>
+        Create New Account
+      </button>
+      <button class="action-btn secondary" (click)="refreshAccounts()">
+        <i class="pi pi-refresh"></i>
+        Refresh
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading accounts...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="errorMessage">
+      <i class="pi pi-exclamation-triangle"></i>
+      <p>{{ errorMessage }}</p>
+      <button class="retry-btn" (click)="refreshAccounts()">Retry</button>
+    </div>
+
+    <!-- Accounts List -->
+    <div class="accounts-grid" *ngIf="!loading && !errorMessage">
+      <div class="account-card" *ngFor="let account of accounts">
+        <div class="account-header">
+          <div class="account-type">
+            <i class="pi pi-credit-card"></i>
+            <span>{{ getAccountTypeDisplay(account.accountType) }}</span>
+          </div>
+          <div class="account-status" [class]="account.status?.toLowerCase()">
+            {{ account.status }}
+          </div>
+        </div>
+
+        <div class="account-details">
+          <div class="account-number">
+            <span class="label">Account Number:</span>
+            <span class="value">{{ account.accountNumber }}</span>
+          </div>
+          <div class="account-balance">
+            <span class="label">Balance:</span>
+            <span class="value">${{ parseBalance(account.balance).toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-accounts" *ngIf="accounts.length === 0">
+        <i class="pi pi-credit-card"></i>
+        <h3>No Accounts Found</h3>
+        <p>You don't have any accounts yet. Create your first account to get started.</p>
+      </div>
+    </div>
+
+    <!-- Account Requests Section -->
+    <div class="requests-section">
+      <div class="section-header">
+        <h2>Pending Account Creation Requests</h2>
+      </div>
+      
+      <div class="requests-list" *ngIf="!loadingRequests">
+        <div class="request-item" *ngFor="let request of paginatedPendingRequests" [class]="getStatusClass(request.status)">
+          <div class="request-header">
+            <span class="request-type">{{ getAccountTypeDisplay(request.accountType) }}</span>
+            <span class="request-status">{{ request.status }}</span>
+          </div>
+          <div class="request-details">
+            <div class="detail-row">
+              <span class="label">Initial Balance:</span>
+              <span class="value">${{ (request.initialBalance || 0).toFixed(2) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Reason:</span>
+              <span class="value">{{ request.reason }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Date:</span>
+              <span class="value">{{ request.timestamp | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="no-requests" *ngIf="pendingRequests.length === 0">
+          <i class="pi pi-info-circle"></i>
+          <p>No pending account creation requests found</p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls" *ngIf="pendingRequests.length > 0">
+          <div class="pagination-info">
+            <span>Showing {{ (currentPage - 1) * itemsPerPage + 1 }}-{{ Math.min(currentPage * itemsPerPage, pendingRequests.length) }} of {{ pendingRequests.length }} pending requests</span>
+          </div>
+          
+          <div class="pagination-buttons">
+            <button class="pagination-btn" 
+                    [disabled]="!hasPreviousPage"
+                    (click)="previousPage()"
+                    title="Previous page">
+              <i class="pi pi-chevron-left"></i>
+            </button>
+            
+            <div class="page-numbers">
+              <button class="page-btn" 
+                      *ngFor="let page of [].constructor(totalPages); let i = index"
+                      [class.active]="currentPage === i + 1"
+                      (click)="goToPage(i + 1)">
+                {{ i + 1 }}
+              </button>
+            </div>
+            
+            <button class="pagination-btn" 
+                    [disabled]="!hasNextPage"
+                    (click)="nextPage()"
+                    title="Next page">
+              <i class="pi pi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="loading" *ngIf="loadingRequests">
+        <i class="pi pi-spin pi-spinner"></i>
+        <p>Loading requests...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Account Modal -->
+<div class="modal-overlay" *ngIf="showCreateModal" (click)="closeCreateAccountModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Request New Account</h3>
+      <button class="close-btn" (click)="closeCreateAccountModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    
+    <form [formGroup]="createAccountForm" (ngSubmit)="createAccount()" class="modal-body">
+      <div class="form-group">
+        <label>Account Type *</label>
+        <select formControlName="accountType" class="form-control">
+          <option value="">Select Account Type</option>
+          <option value="savings">Savings Account</option>
+          <option value="checking">Checking Account</option>
+          <option value="credit">Credit Account</option>
+          <option value="investment">Investment Account</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Initial Balance *</label>
+        <input type="number" formControlName="initialBalance" class="form-control" placeholder="Enter initial balance" min="0" step="0.01">
+      </div>
+      
+      <div class="form-group">
+        <label>Reason for Account Creation *</label>
+        <textarea formControlName="reason" class="form-control" placeholder="Please provide a reason for creating this account"></textarea>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeCreateAccountModal()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!createAccountForm.valid || isCreating">
+          <i class="pi pi-spin pi-spinner" *ngIf="isCreating"></i>
+          {{ isCreating ? 'Submitting...' : 'Submit Request' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

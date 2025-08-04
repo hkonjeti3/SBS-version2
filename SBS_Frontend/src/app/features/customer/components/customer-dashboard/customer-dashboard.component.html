@@ -1,0 +1,103 @@
+<div class="home-page">
+  <app-header></app-header>
+  
+  <div class="home-content">
+    <div class="welcome-section">
+      <div class="welcome-card">
+        <div class="welcome-header">
+          <div class="user-info">
+            <div class="user-avatar">
+              <i class="pi pi-user"></i>
+            </div>
+            <div class="user-details">
+              <h1>Welcome back, {{ userFirstName }}!</h1>
+              <p>Here's what's happening with your accounts today</p>
+            </div>
+          </div>
+          <div class="date-info">
+            <i class="pi pi-calendar"></i>
+            <span>{{ currentDate | date:'EEEE, MMMM d, y' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Quick Actions Card -->
+      <div class="dashboard-card quick-actions">
+        <div class="card-header">
+          <i class="pi pi-bolt"></i>
+          <h3>Quick Actions</h3>
+        </div>
+        <div class="card-content">
+          <div class="action-buttons">
+            <button class="action-btn" routerLink="/credit">
+              <i class="pi pi-money-bill"></i>
+              <span>Transfer Money</span>
+            </button>
+            <button class="action-btn" routerLink="/accounts">
+              <i class="pi pi-credit-card"></i>
+              <span>View Accounts</span>
+            </button>
+            <button class="action-btn" routerLink="/profile">
+              <i class="pi pi-user-edit"></i>
+              <span>Update Profile</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Summary Card -->
+      <div class="dashboard-card account-summary">
+        <div class="card-header">
+          <i class="pi pi-credit-card"></i>
+          <h3>Account Summary</h3>
+        </div>
+        <div class="card-content">
+          <div class="account-stats">
+            <div class="stat-item">
+              <div class="stat-value">{{ totalAccounts || 0 }}</div>
+              <div class="stat-label">Total Accounts</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">${{ totalBalance || '0.00' }}</div>
+              <div class="stat-label">Total Balance</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{{ recentTransactions || 0 }}</div>
+              <div class="stat-label">Recent Transactions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity Card -->
+      <div class="dashboard-card recent-activity">
+        <div class="card-header">
+          <i class="pi pi-clock"></i>
+          <h3>Recent Activity</h3>
+        </div>
+        <div class="card-content">
+          <div class="activity-list">
+            <div class="activity-item" *ngFor="let activity of recentActivities; let i = index">
+              <div class="activity-icon">
+                <i [class]="activity.icon"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">{{ activity.title }}</div>
+                <div class="activity-time">{{ activity.time }}</div>
+              </div>
+              <div class="activity-amount" [class]="activity.type">
+                {{ activity.amount }}
+              </div>
+            </div>
+            <div class="no-activity" *ngIf="!recentActivities || recentActivities.length === 0">
+              <i class="pi pi-info-circle"></i>
+              <p>No recent activity</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
