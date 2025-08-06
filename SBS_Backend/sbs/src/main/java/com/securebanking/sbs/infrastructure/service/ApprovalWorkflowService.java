@@ -51,8 +51,7 @@ public class ApprovalWorkflowService {
     @Autowired
     private EmailService emailService;
     
-    @Autowired
-    private KafkaEventService kafkaEventService;
+    // KafkaEventService removed for Render deployment
     
     @Autowired
     private ProfileUpdateRequestService profileUpdateRequestService;
@@ -490,7 +489,7 @@ public class ApprovalWorkflowService {
             message,
             request.getId()
         );
-        kafkaEventService.publishNotificationEvent(event);
+        // Kafka event publishing removed for Render deployment
     }
     
     // Send profile approval notifications
@@ -530,7 +529,7 @@ public class ApprovalWorkflowService {
             message,
             request.getId()
         );
-        kafkaEventService.publishNotificationEvent(event);
+        // Kafka event publishing removed for Render deployment
     }
 
     private void sendTransactionApprovalNotifications(Transaction transaction, User approver, boolean approved, String... reason) {
@@ -577,7 +576,7 @@ public class ApprovalWorkflowService {
             message,
             transaction.getTransactionId()
         );
-        kafkaEventService.publishNotificationEvent(event);
+        // Kafka event publishing removed for Render deployment
     }
     
     // Log activity

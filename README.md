@@ -31,7 +31,7 @@ SystemProtocol_SBS/
 - **Transaction Processing**: Transfer funds, credit, debit operations
 - **Approval Workflows**: Account and profile approval system
 - **Activity Logging**: Comprehensive activity tracking
-- **Notification System**: Real-time notifications via Kafka
+- **Notification System**: Real-time notifications via email and in-app notifications
 - **Security**: JWT authentication, OTP validation
 
 ## Testing

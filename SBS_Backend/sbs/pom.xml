@@ -151,17 +151,10 @@
 		</dependency>
 		
 		<!-- Kafka for Async Processing -->
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
+		<!-- Removed Kafka dependency for Render deployment -->
 		
 		<!-- Kafka Test Support -->
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+		<!-- Removed Kafka test dependency for Render deployment -->
 	</dependencies>
 	<build>
 		<plugins>

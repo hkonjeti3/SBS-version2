@@ -24,8 +24,7 @@ public class ProfileUpdateRequestService {
     @Autowired
     private UserRepo userRepo;
     
-    @Autowired
-    private KafkaProducerService kafkaProducerService;
+    // KafkaProducerService removed for Render deployment
     
     // Submit a new profile update request
     @Transactional
@@ -55,8 +54,7 @@ public class ProfileUpdateRequestService {
             // Don't let notification failure rollback the entire transaction
         }
         
-        // Publish event to Kafka for async processing
-        kafkaProducerService.publishProfileUpdateRequestEvent(savedRequest);
+        // Kafka event publishing removed for Render deployment
         
         // Convert to DTO and return
         return convertToDto(savedRequest);
@@ -223,8 +221,7 @@ public class ProfileUpdateRequestService {
                 request.getId()
         );
         
-        // Publish to Kafka for async processing
-        kafkaProducerService.publishNotificationEvent(event);
+        // Kafka event publishing removed for Render deployment
     }
     
     // Convert entity to DTO

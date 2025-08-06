@@ -24,8 +24,7 @@ public class AccountRequestService {
     @Autowired
     private UserRepo userRepo;
     
-    @Autowired
-    private KafkaProducerService kafkaProducerService;
+    // KafkaProducerService removed for Render deployment
     
     @Autowired
     private ActivityLogService activityLogService;
@@ -56,8 +55,7 @@ public class AccountRequestService {
             "Initial Balance: $" + requestDto.getInitialBalance() + ", Reason: " + requestDto.getReason()
         );
         
-        // Publish event to Kafka for async processing
-        kafkaProducerService.publishAccountRequestEvent(savedRequest);
+        // Kafka event publishing removed for Render deployment
         
         // Convert to DTO and return
         return convertToDto(savedRequest);
@@ -156,8 +154,7 @@ public class AccountRequestService {
                 request.getId()
         );
         
-        // Publish to Kafka for async processing
-        kafkaProducerService.publishNotificationEvent(event);
+        // Kafka event publishing removed for Render deployment
     }
     
     // Convert entity to DTO

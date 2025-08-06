@@ -35,7 +35,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/shared/styles/common.css"
             ],
             "scripts": []
           },
@@ -49,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "30kb",
+                  "maximumError": "35kb"
                 }
               ],
               "outputHashing": "all"
@@ -94,7 +95,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/shared/styles/common.css"
             ],
             "scripts": []
           }

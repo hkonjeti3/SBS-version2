@@ -10,7 +10,7 @@ import com.securebanking.sbs.shared.model.UserRole;
 import com.securebanking.sbs.infrastructure.repository.UserRepo;
 import com.securebanking.sbs.infrastructure.repository.UserRoleRepo;
 import com.securebanking.sbs.infrastructure.service.OtpService;
-import com.securebanking.sbs.infrastructure.service.KafkaEventService;
+// KafkaEventService import removed for Render deployment
 import com.securebanking.sbs.infrastructure.service.EmailService;
 import com.securebanking.sbs.core.util.JwtUtil;
 import com.securebanking.sbs.infrastructure.iservice.Iuser;
@@ -48,8 +48,7 @@ public class UserService implements Iuser {
     private OtpService otpService;
     @Autowired
     private EmailService emailService;
-    @Autowired(required = false)
-    private KafkaEventService kafkaEventService;
+    // KafkaEventService removed for Render deployment
     
     @Autowired
     private ActivityLogService activityLogService;
@@ -118,14 +117,7 @@ public class UserService implements Iuser {
 
             if(user == null){
                 logger.warn("Login failed - User not found: {}", username);
-                // Publish failed login event
-                if (kafkaEventService != null) {
-                    try {
-                        kafkaEventService.publishLoginEvent(username, false, "unknown");
-                    } catch (Exception e) {
-                        logger.warn("Failed to publish login event to Kafka", e);
-                    }
-                }
+                // Kafka event publishing removed for Render deployment
                 throw new InvalidCredentialsException("Invalid username");
             }
             
@@ -135,14 +127,7 @@ public class UserService implements Iuser {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (!passwordEncoder.matches(password, user.getPasswordHash())) {
                 logger.warn("Login failed - Invalid password for user: {}", username);
-                // Publish failed login event
-                if (kafkaEventService != null) {
-                    try {
-                        kafkaEventService.publishLoginEvent(username, false, "unknown");
-                    } catch (Exception e) {
-                        logger.warn("Failed to publish login event to Kafka", e);
-                    }
-                }
+                // Kafka event publishing removed for Render deployment
                 throw new InvalidCredentialsException("Invalid password");
             }
             
@@ -151,14 +136,7 @@ public class UserService implements Iuser {
             // Check if user is active
             if (!"Active".equals(user.getStatus())) {
                 logger.warn("Login failed - User is not active: {} (status: {})", username, user.getStatus());
-                // Publish failed login event
-                if (kafkaEventService != null) {
-                    try {
-                        kafkaEventService.publishLoginEvent(username, false, "inactive");
-                    } catch (Exception e) {
-                        logger.warn("Failed to publish login event to Kafka", e);
-                    }
-                }
+                // Kafka event publishing removed for Render deployment
                 throw new InvalidCredentialsException("Account is deactivated. Please contact administrator.");
             }
             
