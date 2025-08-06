@@ -21,6 +21,8 @@ services:
         value: red-d28lk8muk2gs73fg5t4g.redis.production.com
       - key: SPRING_REDIS_PORT
         value: "6379"
+      - key: SPRING_REDIS_PASSWORD
+        value: ""
       - key: REDIS_ENABLED
         value: "true"
       - key: JWT_SECRET
