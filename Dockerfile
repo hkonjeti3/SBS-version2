@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy the Maven wrapper and pom.xml from the sbs directory
 COPY SBS_Backend/sbs/mvnw .
 COPY SBS_Backend/sbs/pom.xml .
+COPY SBS_Backend/sbs/.mvn ./.mvn
 
 # Copy the source code
 COPY SBS_Backend/sbs/src ./src
