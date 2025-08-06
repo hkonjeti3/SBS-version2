@@ -27,6 +27,14 @@ public class ConnectionPoolConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
+        // Debug: Print the actual configuration being used
+        System.out.println("=== DATASOURCE CONFIGURATION ===");
+        System.out.println("URL: " + url);
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + (password != null ? "***SET***" : "NULL"));
+        System.out.println("Driver: " + driverClassName);
+        System.out.println("=================================");
+        
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
         config.setUsername(username);
