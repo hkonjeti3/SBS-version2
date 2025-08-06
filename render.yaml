@@ -12,26 +12,21 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: sbs-postgres
-          property: connectionString
+        value: jdbc:postgresql://dpg-d28lj7ggjchc73bqgdj0-a.oregon-postgres.production.com:5432/securebanking
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres1
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Y0tzdcpJTzauyiwlCpNvEW0Z4mtth5vK
       - key: SPRING_REDIS_HOST
-        fromService:
-          type: redis
-          name: sbs-redis
-          property: host
+        value: red-d28lk8muk2gs73fg5t4g.redis.production.com
       - key: SPRING_REDIS_PORT
-        fromService:
-          type: redis
-          name: sbs-redis
-          property: port
-      - key: SPRING_REDIS_PASSWORD
-        fromService:
-          type: redis
-          name: sbs-redis
-          property: password
+        value: "6379"
+      - key: REDIS_ENABLED
+        value: "true"
       - key: JWT_SECRET
-        generateValue: true
+        value: lcft1vbW2P06txh4+AxBi80+czj6r5Nw8f+qayQZyZE=
+      - key: JWT_EXPIRATION
+        value: "86400000"
       - key: MAIL_HOST
         value: smtp.gmail.com
       - key: MAIL_PORT
@@ -39,19 +34,7 @@ services:
       - key: MAIL_USERNAME
         value: konjetisaketh24@gmail.com
       - key: MAIL_PASSWORD
-        sync: false
+        value: zaok luhq duvx arlf
       - key: CORS_ALLOWED_ORIGINS
         value: https://your-frontend-domain.vercel.app
-    healthCheckPath: /actuator/health
-
-databases:
-  - name: sbs-postgres
-    databaseName: secureBanking
-    user: sbs_user
-    plan: free
-
-services:
-  - type: redis
-    name: sbs-redis
-    plan: free
-    maxmemoryPolicy: allkeys-lru 
+    healthCheckPath: /actuator/health 
